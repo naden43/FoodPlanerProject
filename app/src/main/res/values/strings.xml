@@ -1,3 +1,17 @@
 <resources>
     <string name="app_name">Food_Planer</string>
+    <string name="login">Login</string>
+    <string name="UserName">User Name</string>
+    <string name="password">Password</string>
+    <string name="createAccount">Click here</string>
+    <string name="Click">Click Here</string>
+    <string name="register">Register</string>
+    <string name="Email">Email</string>
+    <string name="confirm">Confirm Password</string>
+    <string name="haveAccount">Already Have Account ?</string>
+
+    <string name="create">Create Account?</string>
+    <string name="remeber">Remember Me</string>
+    <string name="skip">Skip</string>
+    <string name="siginin">Login</string>
 </resources>
