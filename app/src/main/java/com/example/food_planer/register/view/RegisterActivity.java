@@ -1,4 +1,4 @@
-package com.example.food_planer.login.view;
+package com.example.food_planer.register.view;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
@@ -13,14 +13,13 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.food_planer.MainActivity;
 import com.example.food_planer.R;
-import com.example.food_planer.register.view.RegisterActivity;
-import com.example.food_planer.login.presenter.Presenter;
+import com.example.food_planer.register.presenter.Presenter;
+import com.example.food_planer.login.view.LoginActivity;
 import com.example.food_planer.model.Reposatory;
 import com.example.food_planer.model.UserLocalDataSourceimpl;
 import com.example.food_planer.network.FireBaseAuth;
@@ -39,29 +38,22 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GoogleAuthProvider;
 
-public class LoginActivity extends AppCompatActivity implements ILoginActivity {
+public class RegisterActivity extends AppCompatActivity implements IRegisterActivity {
 
-    private static final String TAG = "LoginActivity";
-    public static final String FILENAME = "rememberFile";
-    private static final String EMAIL = "email";
-    private static final String PASSWORD = "password";
     FirebaseAuth auth ;
     TextView emailTxt ;
     TextView passwordTxt;
-    Button loginBtn ;
-    TextView registerRedirect;
+    TextView confirmPasswordTxt;
+
+    Button registerBtn ;
 
     SignInButton signInButton;
 
     GoogleSignInClient client ;
 
-    CheckBox remember ;
+    Presenter presenter ;
 
-    SharedPreferences sharedPreferences ;
 
-    Presenter presenter;
-
-    // should be in activity how can i make it in another file
     private final ActivityResultLauncher<Intent> launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
         @Override
         public void onActivityResult(ActivityResult o) {
@@ -76,15 +68,15 @@ public class LoginActivity extends AppCompatActivity implements ILoginActivity {
                         @Override
                         public void onSuccess(AuthResult authResult) {
                             auth  = FirebaseAuth.getInstance();
-                            Toast.makeText(LoginActivity.this, "SignIn Successful", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+                            Toast.makeText(RegisterActivity.this, "SignIn Successful", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
                             startActivity(intent);
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
 
-                            Toast.makeText(LoginActivity.this, "SignInFail" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(RegisterActivity.this, "SignInFail" + e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     });
 
@@ -94,57 +86,57 @@ public class LoginActivity extends AppCompatActivity implements ILoginActivity {
             }
         }
     });
+
+    TextView loginRedirect;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_register);
 
         auth = FirebaseAuth.getInstance();
-        sharedPreferences = getSharedPreferences(FILENAME ,Context.MODE_PRIVATE);
+
+        SharedPreferences sharedPreferences = getSharedPreferences(LoginActivity.FILENAME , Context.MODE_PRIVATE);
         presenter = new Presenter(Reposatory.getInstance(UserLocalDataSourceimpl.getInstance(sharedPreferences) , FireBaseAuth.getInstance(auth)), this);
 
-        presenter.checkSavedLogin();
 
-
-        FirebaseApp.initializeApp(this);
-
-        emailTxt = findViewById(R.id.txtEmail);
+        emailTxt = findViewById(R.id.emailTxt);
         passwordTxt = findViewById(R.id.passwordTxt);
-        loginBtn = findViewById(R.id.btnLogin);
-        registerRedirect = findViewById(R.id.registerNavigation);
-        signInButton = findViewById(R.id.signInButton);
-        remember = findViewById(R.id.rememberMe);
+        confirmPasswordTxt = findViewById(R.id.confirmpassTxt);
+        registerBtn = findViewById(R.id.btnRegister);
+        loginRedirect = findViewById(R.id.loginNavigate);
+        signInButton = findViewById(R.id.signUpButton);
 
-        GoogleSignInOptions signInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.client_id)).requestEmail().build();
-
-
-        client = GoogleSignIn.getClient(LoginActivity.this , signInOptions);
 
 
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                presenter.addToSharedPrerefrence("admin" , "admin");
+                GoogleSignInOptions signInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                        .requestIdToken(getString(R.string.client_id)).requestEmail().build();
+
+
+                client = GoogleSignIn.getClient(RegisterActivity.this , signInOptions);
+
+                FirebaseApp.initializeApp(RegisterActivity.this);
+                presenter.addToSharedPrefrence("admin" , "admin");
                 Intent intent = client.getSignInIntent();
                 launcher.launch(intent);
             }
         });
-
-        loginBtn.setOnClickListener(new View.OnClickListener() {
+        registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String email = emailTxt.getText().toString().trim();
                 String password = passwordTxt.getText().toString().trim();
-                presenter.signIn(email , password , remember.isChecked());
+                String confirmPassword = confirmPasswordTxt.getText().toString().trim();
+                presenter.signUp(email , password , confirmPassword);
             }
         });
 
-        registerRedirect.setOnClickListener(new View.OnClickListener() {
+        loginRedirect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(LoginActivity.this , RegisterActivity.class));
+                startActivity(new Intent(RegisterActivity.this ,LoginActivity.class));
             }
         });
 
@@ -161,18 +153,24 @@ public class LoginActivity extends AppCompatActivity implements ILoginActivity {
     }
 
     @Override
-    public void showFaildLoginMsg(String errorMsg) {
-        Toast.makeText(LoginActivity.this, "fail to sign in " + errorMsg, Toast.LENGTH_SHORT).show();
+    public void showConfirmationPasswordNeeded() {
+        confirmPasswordTxt.setError("Confirmation cannot be empty");
+    }
+
+    @Override
+    public void showEqualPasswords() {
+        confirmPasswordTxt.setError("password does not match");
+    }
+
+    @Override
+    public void showFailedLoginMsg(String errorMsg) {
+        Toast.makeText(RegisterActivity.this, "register fail" + errorMsg, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void showSuccess() {
-        Toast.makeText(LoginActivity.this, "signing in successful", Toast.LENGTH_SHORT).show();
-        startActivity(new Intent(LoginActivity.this , MainActivity.class));
+        Toast.makeText(RegisterActivity.this, "Register successful", Toast.LENGTH_SHORT).show();
+        startActivity(new Intent(RegisterActivity.this , LoginActivity.class));
     }
 
-    @Override
-    public void goToHomePage() {
-        startActivity(new Intent(this  ,MainActivity.class));
-    }
 }

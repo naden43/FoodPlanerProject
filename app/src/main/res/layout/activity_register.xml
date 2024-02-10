@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RegisterActivity">
+    tools:context=".register.view.RegisterActivity">
 
 
     <TextView
@@ -49,7 +49,7 @@
         android:text="@string/confirm"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="@+id/registerNavigation"
-        app:layout_constraintTop_toBottomOf="@+id/passwordRTxt" />
+        app:layout_constraintTop_toBottomOf="@+id/passwordTxt" />
 
     <Button
         android:id="@+id/btnRegister"
@@ -63,25 +63,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/confirmpassTxt" />
 
-    <Button
-        android:id="@+id/button4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="96dp"
-        android:layout_marginTop="24dp"
-        android:text="Button"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
-    <Button
-        android:id="@+id/button5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="20dp"
-        android:text="Button"
-        app:layout_constraintStart_toEndOf="@+id/button4"
-        app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
     <EditText
         android:id="@+id/emailTxt"
@@ -94,7 +76,7 @@
         app:layout_constraintTop_toBottomOf="@+id/registerNavigation" />
 
     <EditText
-        android:id="@+id/passwordRTxt"
+        android:id="@+id/passwordTxt"
         android:layout_width="317dp"
         android:layout_height="48dp"
         android:layout_marginTop="8dp"
@@ -110,7 +92,7 @@
         android:layout_marginTop="8dp"
         android:ems="10"
         android:inputType="textPassword"
-        app:layout_constraintStart_toStartOf="@+id/passwordRTxt"
+        app:layout_constraintStart_toStartOf="@+id/passwordTxt"
         app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
     <TextView
@@ -147,4 +129,23 @@
         app:layout_constraintStart_toEndOf="@+id/textView8"
         app:layout_constraintTop_toBottomOf="@+id/btnRegister" />
 
+
+    <com.google.android.material.divider.MaterialDivider
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        app:dividerInsetEnd="16dp"
+        app:dividerInsetStart="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/loginNavigate" />
+
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/signUpButton"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="128dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/divider" />
 </androidx.constraintlayout.widget.ConstraintLayout>
