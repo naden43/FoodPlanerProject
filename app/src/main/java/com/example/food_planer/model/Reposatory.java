@@ -1,39 +1,71 @@
 package com.example.food_planer.model;
 
-import android.content.SharedPreferences;
-
-import com.example.food_planer.network.FireBaseAuth;
-import com.example.food_planer.network.NetworkCallback;
+import com.example.food_planer.network.CategoriesNetworkCallBack;
+import com.example.food_planer.network.CountriesNetworkCallBack;
+import com.example.food_planer.network.FoodRemoteSourceImpl;
+import com.example.food_planer.network.IngredientNetworkCallBack;
+import com.example.food_planer.network.InspirationMealNetworkCallBack;
+import com.example.food_planer.network.RandomMealCallBack;
+import com.example.food_planer.network.SearchMealsCallBack;
 
 public class Reposatory {
 
-   private static Reposatory instance = null;
+    private static Reposatory instance = null;
 
-   UserLocalDataSourceimpl rememberFile ;
-   FireBaseAuth auth ;
 
-   private Reposatory(UserLocalDataSourceimpl rememberFile , FireBaseAuth auth){
-       this.rememberFile = rememberFile;
-       this.auth = auth;
-   }
 
-   public static  Reposatory getInstance(UserLocalDataSourceimpl rememberFile , FireBaseAuth auth){
-       if(instance==null)
-       {
-           instance = new Reposatory(rememberFile , auth);
-       }
-       return instance;
-   }
+    FoodRemoteSourceImpl foodRemoteSource;
 
-   public void addUser(String email , String password){
-       rememberFile.addCredintialsTOfile(email , password);
-   }
+    private Reposatory(FoodRemoteSourceImpl foodRemoteSource)
+    {
 
-   public void makeAddCall(String email , String password , boolean remember,NetworkCallback networkCallback){
-       auth.makeAcallAdd(email , password ,remember, networkCallback);
-   }
-   public boolean checkSavedAccount()
-   {
-       return rememberFile.checkSavedLogin();
-   }
+        this.foodRemoteSource = foodRemoteSource;
+    }
+
+    static public Reposatory getInstance(FoodRemoteSourceImpl foodRemoteSource)
+    {
+        if(instance==null)
+        {
+            instance = new Reposatory(foodRemoteSource);
+        }
+        return instance;
+    }
+
+    public void makeAInspirationMealCall(InspirationMealNetworkCallBack inspirationMealNetworkCallBack)
+    {
+        foodRemoteSource.makeAInspirationMealCall(inspirationMealNetworkCallBack);
+    }
+
+   public void makeACategoriesCall(CategoriesNetworkCallBack  categoriesNetworkCallBack)
+    {
+        foodRemoteSource.makeACategoiresCall(categoriesNetworkCallBack);
+    }
+    public void makeACountriesCall(CountriesNetworkCallBack countriesNetworkCallBack)
+    {
+        foodRemoteSource.makeACountriesCall(countriesNetworkCallBack);
+    }
+
+    public void makeAIngredentCall(IngredientNetworkCallBack ingredientNetworkCallBack)
+    {
+        foodRemoteSource.makeAIngredientsCall(ingredientNetworkCallBack);
+    }
+
+    public void makeARandomMealCall(RandomMealCallBack randomMealCallBack){
+        foodRemoteSource.makeARandomMealCall(randomMealCallBack);
+    }
+
+    public void makeAMealByCategoryCall(SearchMealsCallBack searchMealsCallBack , String CategoryName){
+        foodRemoteSource.makeAMealsByCategoryCall(searchMealsCallBack , CategoryName);
+    }
+
+    public void makeAMealsByCountryCall(SearchMealsCallBack searchMealsCallBack , String countryName){
+        foodRemoteSource.makeAMealByCountryCall(searchMealsCallBack ,countryName);
+    }
+
+    public void makeAMealsByIngredientCall(SearchMealsCallBack searchMealsCallBack , String ingredientName){
+        foodRemoteSource.makeAMealsByIngredientCall(searchMealsCallBack ,ingredientName);
+    }
+
+
+
 }

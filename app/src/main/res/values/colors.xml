@@ -4,5 +4,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="linkColor">#0000FF</color>
     <color name="main_color">#FF9843</color>
-    <color name="maincolor">#FF9843</color>
+    <color name="maincolorD">#70000000</color>
 </resources>

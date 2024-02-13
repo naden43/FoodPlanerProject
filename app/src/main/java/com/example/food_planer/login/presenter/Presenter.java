@@ -1,18 +1,18 @@
 package com.example.food_planer.login.presenter;
 
 import com.example.food_planer.login.view.ILoginActivity;
-import com.example.food_planer.model.Reposatory;
+import com.example.food_planer.model.LoginAndRegisterReposatory;
 import com.example.food_planer.network.NetworkCallback;
 
 public class Presenter implements IPresenter , NetworkCallback {
 
-    Reposatory repo ;
+    LoginAndRegisterReposatory repo ;
 
     ILoginActivity view ;
 
     String email ;
     String password;
-    public Presenter(Reposatory repo ,  ILoginActivity view )
+    public Presenter(LoginAndRegisterReposatory repo , ILoginActivity view )
     {
         this.repo = repo;
         this.view = view;

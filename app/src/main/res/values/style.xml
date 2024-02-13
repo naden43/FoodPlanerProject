@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="BottomAppBar" parent="Widget.MaterialComponents.BottomAppBar">
+        <!-- Customize bottom app bar color -->
+        <item name="backgroundTint">@color/main_color</item>
+
+        <!-- Customize bottom app bar radius -->
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">16dp</item>
+
+        <!-- Customize ripple effect -->
+        <item name="rippleColor">@color/white</item>
+    </style></resources>

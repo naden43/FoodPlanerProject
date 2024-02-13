@@ -62,26 +62,18 @@ public class FireBaseAuth {
 
 
     public void makeAcallAdd(String email, String password,boolean remember,NetworkCallback networkCallback) {
+
         auth.signInWithEmailAndPassword(email, password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+
 
             @Override
             public void onSuccess(AuthResult authResult) {
-                /*if(remember.isChecked())
-                {
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putString(EMAIL ,email);
-                    editor.putString(PASSWORD, password);
-                    editor.commit();
 
-                }
-                Toast.makeText(LoginActivity.this, "signing in successful", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(LoginActivity.this , MainActivity.class));*/
                 networkCallback.successCall(remember);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                //Toast.makeText(LoginActivity.this, "fail to sign in " + e.getMessage(), Toast.LENGTH_SHORT).show();
 
                 e.printStackTrace();
                 networkCallback.FailCall(e.getMessage());

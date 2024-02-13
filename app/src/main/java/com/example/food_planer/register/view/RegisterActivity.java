@@ -20,7 +20,7 @@ import com.example.food_planer.MainActivity;
 import com.example.food_planer.R;
 import com.example.food_planer.register.presenter.Presenter;
 import com.example.food_planer.login.view.LoginActivity;
-import com.example.food_planer.model.Reposatory;
+import com.example.food_planer.model.LoginAndRegisterReposatory;
 import com.example.food_planer.model.UserLocalDataSourceimpl;
 import com.example.food_planer.network.FireBaseAuth;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -96,7 +96,7 @@ public class RegisterActivity extends AppCompatActivity implements IRegisterActi
         auth = FirebaseAuth.getInstance();
 
         SharedPreferences sharedPreferences = getSharedPreferences(LoginActivity.FILENAME , Context.MODE_PRIVATE);
-        presenter = new Presenter(Reposatory.getInstance(UserLocalDataSourceimpl.getInstance(sharedPreferences) , FireBaseAuth.getInstance(auth)), this);
+        presenter = new Presenter(LoginAndRegisterReposatory.getInstance(UserLocalDataSourceimpl.getInstance(sharedPreferences) , FireBaseAuth.getInstance(auth)), this);
 
 
         emailTxt = findViewById(R.id.emailTxt);

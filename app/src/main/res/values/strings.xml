@@ -16,4 +16,17 @@
     <string name="siginin">Login</string>
     <string name="or">OR</string>
     <string name="brandName">Foodly</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="profile_fragment">profile Fragment</string>
+    <string name="favourate_fragment">Favourate Fragment</string>
+    <string name="home">home</string>
+    <string name="search">search</string>
+    <string name="week_meals">week meals</string>
+    <string name="inspiration_of_the_day">Inspiration of the Day</string>
+    <string name="random_meals">Random Meals</string>
+    <string name="Search">Search By</string>
+    <string name="Category">Category</string>
+    <string name="Country">Country</string>
+    <string name="Ingredent">Ingredent</string>
 </resources>

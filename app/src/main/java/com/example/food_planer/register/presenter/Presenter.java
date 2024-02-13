@@ -1,29 +1,18 @@
 package com.example.food_planer.register.presenter;
 
-import android.content.Intent;
-import android.widget.Toast;
-
-import androidx.annotation.NonNull;
-
-import com.example.food_planer.login.view.ILoginActivity;
-import com.example.food_planer.login.view.LoginActivity;
-import com.example.food_planer.model.Reposatory;
+import com.example.food_planer.model.LoginAndRegisterReposatory;
 import com.example.food_planer.network.NetworkCallback;
 import com.example.food_planer.register.view.IRegisterActivity;
-import com.example.food_planer.register.view.RegisterActivity;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.AuthResult;
 
 public class Presenter implements IPresenter , NetworkCallback {
 
-    Reposatory repo ;
+    LoginAndRegisterReposatory repo ;
 
     IRegisterActivity view ;
 
     String email ;
     String password;
-    public Presenter(Reposatory repo ,  IRegisterActivity view )
+    public Presenter(LoginAndRegisterReposatory repo , IRegisterActivity view )
     {
         this.repo = repo;
         this.view = view;

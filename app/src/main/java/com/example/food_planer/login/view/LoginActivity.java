@@ -17,11 +17,11 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.food_planer.MainActivity;
+import com.example.food_planer.NavigationActivity;
 import com.example.food_planer.R;
 import com.example.food_planer.register.view.RegisterActivity;
 import com.example.food_planer.login.presenter.Presenter;
-import com.example.food_planer.model.Reposatory;
+import com.example.food_planer.model.LoginAndRegisterReposatory;
 import com.example.food_planer.model.UserLocalDataSourceimpl;
 import com.example.food_planer.network.FireBaseAuth;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -33,7 +33,6 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -77,8 +76,9 @@ public class LoginActivity extends AppCompatActivity implements ILoginActivity {
                         public void onSuccess(AuthResult authResult) {
                             auth  = FirebaseAuth.getInstance();
                             Toast.makeText(LoginActivity.this, "SignIn Successful", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+                            Intent intent = new Intent(LoginActivity.this,NavigationActivity.class);
                             startActivity(intent);
+                            finish();
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
@@ -102,12 +102,12 @@ public class LoginActivity extends AppCompatActivity implements ILoginActivity {
 
         auth = FirebaseAuth.getInstance();
         sharedPreferences = getSharedPreferences(FILENAME ,Context.MODE_PRIVATE);
-        presenter = new Presenter(Reposatory.getInstance(UserLocalDataSourceimpl.getInstance(sharedPreferences) , FireBaseAuth.getInstance(auth)), this);
+        presenter = new Presenter(LoginAndRegisterReposatory.getInstance(UserLocalDataSourceimpl.getInstance(sharedPreferences) , FireBaseAuth.getInstance(auth)), this);
 
         presenter.checkSavedLogin();
 
 
-        FirebaseApp.initializeApp(this);
+        //FirebaseApp.initializeApp(this);
 
         emailTxt = findViewById(R.id.txtEmail);
         passwordTxt = findViewById(R.id.passwordTxt);
@@ -168,11 +168,13 @@ public class LoginActivity extends AppCompatActivity implements ILoginActivity {
     @Override
     public void showSuccess() {
         Toast.makeText(LoginActivity.this, "signing in successful", Toast.LENGTH_SHORT).show();
-        startActivity(new Intent(LoginActivity.this , MainActivity.class));
+        startActivity(new Intent(LoginActivity.this , NavigationActivity.class));
+        finish();
     }
 
     @Override
     public void goToHomePage() {
-        startActivity(new Intent(this  ,MainActivity.class));
+        startActivity(new Intent(this  , NavigationActivity.class));
+        finish();
     }
 }
