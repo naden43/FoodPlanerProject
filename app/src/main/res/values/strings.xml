@@ -29,4 +29,11 @@
     <string name="Category">Category</string>
     <string name="Country">Country</string>
     <string name="Ingredent">Ingredent</string>
+    <string name="Network">"You are not Connected in the network please check your Connectivity "</string>
+    <string name="loginMessage">You are not logged in \nLogin Now</string>
+    <string name="Ingredients">Ingredients</string>
+    <string name="FoodName">Food Name</string>
+    <string name="instructions">Instructions</string>
+    <string name="Video">Meal Video</string>
+    <string name="search_for_category_country_or_ingredient">Search For Category , Country or Ingredient</string>
 </resources>

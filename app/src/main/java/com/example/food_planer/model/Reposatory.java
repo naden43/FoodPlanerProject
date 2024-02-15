@@ -5,7 +5,8 @@ import com.example.food_planer.network.CountriesNetworkCallBack;
 import com.example.food_planer.network.FoodRemoteSourceImpl;
 import com.example.food_planer.network.IngredientNetworkCallBack;
 import com.example.food_planer.network.InspirationMealNetworkCallBack;
-import com.example.food_planer.network.RandomMealCallBack;
+import com.example.food_planer.network.MealCallBack;
+import com.example.food_planer.network.MealDetailsCallBack;
 import com.example.food_planer.network.SearchMealsCallBack;
 
 public class Reposatory {
@@ -50,8 +51,8 @@ public class Reposatory {
         foodRemoteSource.makeAIngredientsCall(ingredientNetworkCallBack);
     }
 
-    public void makeARandomMealCall(RandomMealCallBack randomMealCallBack){
-        foodRemoteSource.makeARandomMealCall(randomMealCallBack);
+    public void makeARandomMealCall(MealCallBack mealCallBack){
+        foodRemoteSource.makeARandomMealCall(mealCallBack);
     }
 
     public void makeAMealByCategoryCall(SearchMealsCallBack searchMealsCallBack , String CategoryName){
@@ -67,5 +68,8 @@ public class Reposatory {
     }
 
 
+    public void  makeAMealsDetailsCall(MealDetailsCallBack mealDetailsCallBack , String strMeal){
+        foodRemoteSource.makeAMealDetailsCall(mealDetailsCallBack , strMeal);
+    }
 
 }

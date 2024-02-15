@@ -9,10 +9,14 @@
         android:id="@+id/home2"
         android:name="com.example.food_planer.home.view.Home"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_home2_to_mealDetails"
+            app:destination="@id/mealDetails" />
+    </fragment>
     <fragment
         android:id="@+id/profile"
-        android:name="com.example.food_planer.Profile"
+        android:name="com.example.food_planer.profile.view.Profile"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
     <fragment
@@ -32,12 +36,12 @@
     </fragment>
     <fragment
         android:id="@+id/favourate"
-        android:name="com.example.food_planer.Favourate"
+        android:name="com.example.food_planer.favourate.view.Favourate"
         android:label="fragment_favourate"
         tools:layout="@layout/fragment_favourate" />
     <fragment
         android:id="@+id/weekMeals"
-        android:name="com.example.food_planer.WeekMeals"
+        android:name="com.example.food_planer.weekmeals.view.WeekMeals"
         android:label="fragment_week_meals"
         tools:layout="@layout/fragment_week_meals" />
     <fragment
@@ -49,6 +53,9 @@
             android:name="CategoryName"
             app:argType="string"
             app:nullable="true" />
+        <action
+            android:id="@+id/action_categoryMealsFragment_to_mealDetails"
+            app:destination="@id/mealDetails" />
     </fragment>
     <fragment
         android:id="@+id/countriesMealFragment"
@@ -60,6 +67,9 @@
             app:argType="string"
             app:nullable="true"
             android:defaultValue="null" />
+        <action
+            android:id="@+id/action_countriesMealFragment_to_mealDetails"
+            app:destination="@id/mealDetails" />
     </fragment>
     <fragment
         android:id="@+id/ingredentsMealsFragment"
@@ -68,6 +78,20 @@
         tools:layout="@layout/fragment_ingredents_meals" >
         <argument
             android:name="strIgredent"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="null" />
+        <action
+            android:id="@+id/action_ingredentsMealsFragment_to_mealDetails"
+            app:destination="@id/mealDetails" />
+    </fragment>
+    <fragment
+        android:id="@+id/mealDetails"
+        android:name="com.example.food_planer.mealpage.view.MealDetails"
+        android:label="fragment_meal_details"
+        tools:layout="@layout/fragment_meal_details" >
+        <argument
+            android:name="strMeal"
             app:argType="string"
             app:nullable="true"
             android:defaultValue="null" />

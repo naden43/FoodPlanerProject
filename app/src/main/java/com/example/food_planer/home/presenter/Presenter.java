@@ -3,11 +3,11 @@ package com.example.food_planer.home.presenter;
 import com.example.food_planer.home.view.Ihome;
 import com.example.food_planer.model.Meal;
 import com.example.food_planer.model.Reposatory;
-import com.example.food_planer.model.meals;
+import com.example.food_planer.model.Meals;
 import com.example.food_planer.network.InspirationMealNetworkCallBack;
-import com.example.food_planer.network.RandomMealCallBack;
+import com.example.food_planer.network.MealCallBack;
 
-public class Presenter implements IPresenter , InspirationMealNetworkCallBack , RandomMealCallBack {
+public class Presenter implements IPresenter , InspirationMealNetworkCallBack , MealCallBack {
 
 
 
@@ -35,13 +35,13 @@ public class Presenter implements IPresenter , InspirationMealNetworkCallBack , 
     }
 
     @Override
-    public void onSuccess(meals meal) {
+    public void onSuccess(Meals meal) {
         view.showData(meal.getMeals().get(0));
     }
 
     @Override
     public void onSuccess(Meal meal) {
-            view.showRandomData(meal);
+        view.showRandomData(meal);
     }
 
     @Override

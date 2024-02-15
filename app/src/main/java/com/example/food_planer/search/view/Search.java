@@ -1,20 +1,36 @@
 package com.example.food_planer.search.view;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkCapabilities;
+import android.net.NetworkRequest;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
+import android.os.Looper;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ScrollView;
 import android.widget.Toast;
 
 import com.example.food_planer.R;
+import com.example.food_planer.model.Category;
 import com.example.food_planer.model.Countries;
+import com.example.food_planer.model.Country;
+import com.example.food_planer.model.Ingredien;
 import com.example.food_planer.model.Ingredients;
 import com.example.food_planer.model.Reposatory;
 import com.example.food_planer.network.FoodRemoteSourceImpl;
@@ -22,6 +38,12 @@ import com.example.food_planer.search.presenter.Presenter;
 import com.example.food_planer.model.Categories;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
+
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.core.Observable;
 
 
 public class Search extends Fragment implements Isearch {
@@ -30,9 +52,16 @@ public class Search extends Fragment implements Isearch {
     CategoryAdapter categoryAdapter;
     CountryAdapter countryAdapter;
 
+    EditText searchText ;
     IngredentAdapter ingredentAdapter;
 
     Presenter presenter;
+
+    ArrayList<Category> categories = new ArrayList<>();
+
+    ArrayList<Country> countries = new ArrayList<>();
+
+    ArrayList<Ingredien> ingrediens = new ArrayList<>();
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +79,94 @@ public class Search extends Fragment implements Isearch {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        ConstraintLayout networkLayout = view.findViewById(R.id.networkMessage);
+        ScrollView page = view.findViewById(R.id.searchPage);
+
+
+        NetworkRequest networkRequest = new NetworkRequest.Builder()
+                .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+                .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
+                .build();
+
+        Handler mHandler = new Handler(Looper.getMainLooper());
+        ConnectivityManager.NetworkCallback networkCallback = new ConnectivityManager.NetworkCallback(){
+
+            @Override
+            public void onAvailable(@NonNull Network network) {
+                super.onAvailable(network);
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        networkLayout.setVisibility(View.GONE);
+                        page.setVisibility(View.VISIBLE);
+                        presenter.getAllCategories();
+                        presenter.getAllCountries();
+                        presenter.getAllIngredents();
+
+                    }
+                });
+            }
+            @Override
+            public void onLost(@NonNull Network network) {
+                super.onLost(network);
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        page.setVisibility(View.GONE);
+                        networkLayout.setVisibility(View.VISIBLE);
+                    }
+                });
+            }
+        };
+
+
+        searchText = view.findViewById(R.id.searchText);
+        searchText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            // another method
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                Observable observable = Observable.create(
+                        item-> {
+                            String e = s.toString();
+                            item.onNext(e);
+                        }
+                ).debounce(300 , TimeUnit.MILLISECONDS);
+
+                observable
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe( str -> {
+                    if(categories!=null) {
+                        ArrayList<Category> result = (ArrayList<Category>) categories.stream().filter(item -> item.getStrCategory().toLowerCase().contains(str.toString().toLowerCase())).collect(Collectors.toList());
+                        categoryAdapter.setList(result);
+                    }
+                    if(countries!=null) {
+                                ArrayList<Country> result = (ArrayList<Country>) countries.stream().filter(item -> item.getStrArea().toLowerCase().contains(str.toString().toLowerCase())).collect(Collectors.toList());
+                                countryAdapter.setList(result);
+                    }
+                    if(ingrediens!=null){
+                        ArrayList<Ingredien> result = (ArrayList<Ingredien>) ingrediens.stream().filter(item -> item.getStrIngredient().toLowerCase().contains(str.toString().toLowerCase())).collect(Collectors.toList());
+                        ingredentAdapter.setList(result);
+                    }
+
+                });
+
+            }
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        ConnectivityManager connectivityManager = (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        connectivityManager.requestNetwork(networkRequest , networkCallback);
+
 
         RecyclerView recyclerViewCategories;
         recyclerViewCategories = view.findViewById(R.id.CategoryList);
@@ -83,9 +200,6 @@ public class Search extends Fragment implements Isearch {
 
         presenter = new Presenter(Reposatory.getInstance(FoodRemoteSourceImpl.getInstance()),this);
 
-        presenter.getAllCategories();
-        presenter.getAllCountries();
-        presenter.getAllIngredents();
 
 
 
@@ -93,6 +207,7 @@ public class Search extends Fragment implements Isearch {
 
     @Override
     public void showCategoriesData(Categories categories) {
+        this.categories = categories.getCategories();
         categoryAdapter.setList(categories.getCategories());
     }
 
@@ -103,11 +218,13 @@ public class Search extends Fragment implements Isearch {
 
     @Override
     public void showCountriesData(Countries countries) {
+        this.countries = countries.getCountries();
         countryAdapter.setList(countries.getCountries());
     }
 
     @Override
-    public void showIngredentsData(Ingredients ingredients) {
+    public void showIngredentsData(Ingredients ingredients){
+        this.ingrediens = ingredients.getIngredents();
         ingredentAdapter.setList(ingredients.getIngredents());
     }
 }

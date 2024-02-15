@@ -1,6 +1,6 @@
 package com.example.food_planer.network;
 
-import com.example.food_planer.model.meals;
+import com.example.food_planer.model.Meals;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -8,5 +8,5 @@ import retrofit2.http.GET;
 public interface RandomMealService {
 
     @GET("random.php")
-    public Call<meals> getRandomMeal();
+    public Call<Meals> getRandomMeal();
 }

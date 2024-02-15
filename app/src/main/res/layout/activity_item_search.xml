@@ -19,22 +19,24 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constarinView"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:background="@color/main_color">
 
             <TextView
                 android:id="@+id/name"
-                android:layout_width="200dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingStart="20dp"
+                android:gravity="center"
+                android:paddingStart="40dp"
                 android:paddingTop="20dp"
-                android:paddingEnd="20dp"
+                android:paddingEnd="40dp"
                 android:paddingBottom="20dp"
                 android:text="TextView"
                 android:textColor="#FFFFFF"
                 android:textSize="20sp"
-                android:gravity="center"/>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,8 +2,8 @@ package com.example.food_planer.model;
 
 import java.util.ArrayList;
 
-public class meals {
-    public meals(ArrayList<Meal> meals) {
+public class Meals {
+    public Meals(ArrayList<Meal> meals) {
         this.meals = meals;
     }
 

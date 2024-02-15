@@ -36,12 +36,11 @@ public class UserLocalDataSourceimpl implements UserLocalDataSource{
 
     @Override
     public void addCredintialsTOfile(String email, String password) {
-
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(EMAIL , email);
         editor.putString(PASSWORD, password);
         editor.commit();
-        Log.i(TAG, "addCredintialsTOfile: " + "added" + email + password );
+        Log.i(TAG, "addCredentialsTOfile: " + "added" + email + password );
     }
 
     public static UserLocalDataSourceimpl getInstance(SharedPreferences sharedPreferences){

@@ -1,9 +1,8 @@
 package com.example.food_planer.searchbyingredents.presenter;
 
 import com.example.food_planer.model.Reposatory;
-import com.example.food_planer.model.meals;
+import com.example.food_planer.model.Meals;
 import com.example.food_planer.network.SearchMealsCallBack;
-import com.example.food_planer.searchbycountry.view.ICountryFragment;
 import com.example.food_planer.searchbyingredents.view.IIngredentsMealFragment;
 
 public class Presenter implements IPresenter , SearchMealsCallBack {
@@ -15,7 +14,7 @@ public class Presenter implements IPresenter , SearchMealsCallBack {
         this.view = view;
     }
     @Override
-    public void onSuccess(meals meals) {
+    public void onSuccess(Meals meals) {
         view.showMealsData(meals);
     }
 

@@ -11,6 +11,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -19,6 +20,7 @@ import android.widget.Toast;
 
 import com.example.food_planer.NavigationActivity;
 import com.example.food_planer.R;
+import com.example.food_planer.home.view.HomeDirections;
 import com.example.food_planer.register.view.RegisterActivity;
 import com.example.food_planer.login.presenter.Presenter;
 import com.example.food_planer.model.LoginAndRegisterReposatory;
@@ -104,7 +106,7 @@ public class LoginActivity extends AppCompatActivity implements ILoginActivity {
         sharedPreferences = getSharedPreferences(FILENAME ,Context.MODE_PRIVATE);
         presenter = new Presenter(LoginAndRegisterReposatory.getInstance(UserLocalDataSourceimpl.getInstance(sharedPreferences) , FireBaseAuth.getInstance(auth)), this);
 
-        presenter.checkSavedLogin();
+        //presenter.checkSavedLogin();
 
 
         //FirebaseApp.initializeApp(this);
@@ -138,6 +140,7 @@ public class LoginActivity extends AppCompatActivity implements ILoginActivity {
                 String email = emailTxt.getText().toString().trim();
                 String password = passwordTxt.getText().toString().trim();
                 presenter.signIn(email , password , remember.isChecked());
+                //startActivity(new Intent(LoginActivity.this , NavigationActivity.class));
             }
         });
 
@@ -145,6 +148,16 @@ public class LoginActivity extends AppCompatActivity implements ILoginActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(LoginActivity.this , RegisterActivity.class));
+            }
+        });
+
+        Button skip = findViewById(R.id.btnSkip);
+        skip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i(TAG, "onClick: " + "clicked");
+                startActivity(new Intent(LoginActivity.this , NavigationActivity.class));
+                finish();
             }
         });
 

@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -70,8 +71,18 @@ class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>
 
         holder.description.setText(meals.get(position).getStrMeal()+","+meals.get(position).getStrArea());
         // separate ?
+
         Glide.with(context).load(meals.get(position).getStrMealThumb()).apply(new RequestOptions().
                 override(200, 200)).into(holder.img);
+
+        holder.constraintLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                HomeDirections.ActionHome2ToMealDetails action = HomeDirections.actionHome2ToMealDetails();
+                action.setStrMeal(meals.get(position).getStrMeal());
+                Navigation.findNavController(v).navigate(action);
+            }
+        });
 
     }
 

@@ -3,7 +3,8 @@ package com.example.food_planer.network;
 import com.example.food_planer.model.Categories;
 import com.example.food_planer.model.Countries;
 import com.example.food_planer.model.Ingredients;
-import com.example.food_planer.model.meals;
+import com.example.food_planer.model.Meals;
+import com.example.food_planer.model.MealsDetails;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -97,36 +98,36 @@ public class FoodRemoteSourceImpl implements FoodRemoteDataSource{
     public void makeAInspirationMealCall(InspirationMealNetworkCallBack inspirationMealNetworkCallBack) {
         RandomMealService randomMealService = retrofit.create(RandomMealService.class);
 
-        Call<meals> call  = randomMealService.getRandomMeal();
+        Call<Meals> call  = randomMealService.getRandomMeal();
 
-        call.enqueue(new Callback<meals>() {
+        call.enqueue(new Callback<Meals>() {
             @Override
-            public void onResponse(Call<meals> call, Response<meals> response) {
+            public void onResponse(Call<Meals> call, Response<Meals> response) {
                 inspirationMealNetworkCallBack.onSuccess(response.body());
             }
 
             @Override
-            public void onFailure(Call<meals> call, Throwable t) {
+            public void onFailure(Call<Meals> call, Throwable t) {
                 inspirationMealNetworkCallBack.onFailure(t.getMessage());
             }
         });
     }
 
     @Override
-    public void makeARandomMealCall(RandomMealCallBack randomMealCallBack) {
+    public void makeARandomMealCall(MealCallBack mealCallBack) {
         RandomMealService randomMealService = retrofit.create(RandomMealService.class);
 
-        Call<meals> call  = randomMealService.getRandomMeal();
+        Call<Meals> call  = randomMealService.getRandomMeal();
 
-        call.enqueue(new Callback<meals>() {
+        call.enqueue(new Callback<Meals>() {
             @Override
-            public void onResponse(Call<meals> call, Response<meals> response) {
-                randomMealCallBack.onSuccess(response.body().getMeals().get(0));
+            public void onResponse(Call<Meals> call, Response<Meals> response) {
+                mealCallBack.onSuccess(response.body().getMeals().get(0));
             }
 
             @Override
-            public void onFailure(Call<meals> call, Throwable t) {
-                randomMealCallBack.onFailure(t.getMessage());
+            public void onFailure(Call<Meals> call, Throwable t) {
+                mealCallBack.onFailure(t.getMessage());
             }
         });
     }
@@ -135,16 +136,16 @@ public class FoodRemoteSourceImpl implements FoodRemoteDataSource{
     public void makeAMealByCountryCall(SearchMealsCallBack searchMealsCallBack, String CountryName) {
         SearchByService searchByService = retrofit.create(SearchByService.class);
 
-        Call<meals> call  = searchByService.getMealsByCountry(CountryName);
+        Call<Meals> call  = searchByService.getMealsByCountry(CountryName);
 
-        call.enqueue(new Callback<meals>() {
+        call.enqueue(new Callback<Meals>() {
             @Override
-            public void onResponse(Call<meals> call, Response<meals> response) {
+            public void onResponse(Call<Meals> call, Response<Meals> response) {
                 searchMealsCallBack.onSuccess(response.body());
             }
 
             @Override
-            public void onFailure(Call<meals> call, Throwable t) {
+            public void onFailure(Call<Meals> call, Throwable t) {
                 searchMealsCallBack.onFailure(t.getMessage());
             }
         });
@@ -154,16 +155,16 @@ public class FoodRemoteSourceImpl implements FoodRemoteDataSource{
     public void makeAMealsByCategoryCall(SearchMealsCallBack searchMealsCallBack , String CategoryName) {
         SearchByService searchByService = retrofit.create(SearchByService.class);
 
-        Call<meals> call  = searchByService.getMealsByCategory(CategoryName);
+        Call<Meals> call  = searchByService.getMealsByCategory(CategoryName);
 
-        call.enqueue(new Callback<meals>() {
+        call.enqueue(new Callback<Meals>() {
             @Override
-            public void onResponse(Call<meals> call, Response<meals> response) {
+            public void onResponse(Call<Meals> call, Response<Meals> response) {
                 searchMealsCallBack.onSuccess(response.body());
             }
 
             @Override
-            public void onFailure(Call<meals> call, Throwable t) {
+            public void onFailure(Call<Meals> call, Throwable t) {
                 searchMealsCallBack.onFailure(t.getMessage());
             }
         });
@@ -173,17 +174,35 @@ public class FoodRemoteSourceImpl implements FoodRemoteDataSource{
     public void makeAMealsByIngredientCall(SearchMealsCallBack searchMealsCallBack, String IngredientName) {
         SearchByService searchByService = retrofit.create(SearchByService.class);
 
-        Call<meals> call  = searchByService.getMealsByIngredient(IngredientName);
+        Call<Meals> call  = searchByService.getMealsByIngredient(IngredientName);
 
-        call.enqueue(new Callback<meals>() {
+        call.enqueue(new Callback<Meals>() {
             @Override
-            public void onResponse(Call<meals> call, Response<meals> response) {
+            public void onResponse(Call<Meals> call, Response<Meals> response) {
                 searchMealsCallBack.onSuccess(response.body());
             }
 
             @Override
-            public void onFailure(Call<meals> call, Throwable t) {
+            public void onFailure(Call<Meals> call, Throwable t) {
                 searchMealsCallBack.onFailure(t.getMessage());
+            }
+        });
+    }
+
+    public void makeAMealDetailsCall(MealDetailsCallBack mealDetailsCallBack, String strMeal){
+        MealService mealService = retrofit.create(MealService.class);
+
+        Call<MealsDetails> call  = mealService.getFullDetailedMeal(strMeal);
+
+        call.enqueue(new Callback<MealsDetails>() {
+            @Override
+            public void onResponse(Call<MealsDetails> call, Response<MealsDetails> response) {
+                mealDetailsCallBack.onSuccess(response.body().getMeals().get(0));
+            }
+
+            @Override
+            public void onFailure(Call<MealsDetails> call, Throwable t) {
+                mealDetailsCallBack.onFailure(t.getMessage());
             }
         });
     }

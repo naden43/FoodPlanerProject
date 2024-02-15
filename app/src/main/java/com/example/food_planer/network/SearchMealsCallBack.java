@@ -1,10 +1,10 @@
 package com.example.food_planer.network;
 
-import com.example.food_planer.model.meals;
+import com.example.food_planer.model.Meals;
 
 public interface SearchMealsCallBack {
 
-    public void onSuccess(meals meals);
+    public void onSuccess(Meals meals);
 
     public void onFailure(String errorMsg);
 

@@ -4,6 +4,7 @@ public class Ingredien{
 
     String strIngredient;
 
+
     public Ingredien(String strIngredient) {
         this.strIngredient = strIngredient;
     }

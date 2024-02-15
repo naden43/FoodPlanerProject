@@ -9,12 +9,16 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.food_planer.R;
 import com.example.food_planer.model.Meal;
+import com.example.food_planer.searchbycategory.view.CategoryMealsFragmentDirections;
+import com.example.food_planer.searchbycountry.view.CountriesMealFragmentDirections;
+import com.example.food_planer.searchbyingredents.view.ingredentsMealsFragmentDirections;
 
 import java.util.ArrayList;
 
@@ -23,9 +27,12 @@ public class SearchMealsAdapter extends  RecyclerView.Adapter<SearchMealsAdapter
     ArrayList<Meal> meals ;
     Context context ;
 
-    public SearchMealsAdapter(ArrayList<Meal> meals , Context context) {
+    int id ;
+
+    public SearchMealsAdapter(ArrayList<Meal> meals , Context context , int id) {
         this.meals = meals;
         this.context = context;
+        this.id =id ;
     }
 
     public void setList(ArrayList<Meal> meals)
@@ -70,6 +77,31 @@ public class SearchMealsAdapter extends  RecyclerView.Adapter<SearchMealsAdapter
         // separate ?
         Glide.with(context).load(meals.get(position).getStrMealThumb()).apply(new RequestOptions().
                 override(200, 200)).into(holder.img);
+
+
+        holder.constraintLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(id == 1){
+                    CategoryMealsFragmentDirections.ActionCategoryMealsFragmentToMealDetails action = CategoryMealsFragmentDirections.actionCategoryMealsFragmentToMealDetails();
+                    action.setStrMeal(meals.get(position).getStrMeal());
+                    Navigation.findNavController(v).navigate(action);
+                }
+                else if(id==2){
+                    CountriesMealFragmentDirections.ActionCountriesMealFragmentToMealDetails action = CountriesMealFragmentDirections.actionCountriesMealFragmentToMealDetails();
+                    action.setStrMeal(meals.get(position).getStrMeal());
+                    Navigation.findNavController(v).navigate(action);
+                }
+                else{
+                    ingredentsMealsFragmentDirections.ActionIngredentsMealsFragmentToMealDetails action = ingredentsMealsFragmentDirections.actionIngredentsMealsFragmentToMealDetails();
+                    action.setStrMeal(meals.get(position).getStrMeal());
+                    Navigation.findNavController(v).navigate(action);
+                }
+
+
+            }
+        });
 
     }
 

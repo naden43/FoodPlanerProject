@@ -15,7 +15,7 @@ import android.widget.Toast;
 
 import com.example.food_planer.R;
 import com.example.food_planer.model.Reposatory;
-import com.example.food_planer.model.meals;
+import com.example.food_planer.model.Meals;
 import com.example.food_planer.network.FoodRemoteSourceImpl;
 import com.example.food_planer.search.view.SearchMealsAdapter;
 import com.example.food_planer.searchbycategory.presenter.Presenter;
@@ -26,6 +26,7 @@ import java.util.ArrayList;
 public class CategoryMealsFragment extends Fragment implements ICategoryFragment {
 
 
+    public static final int CATEGORY_FRAGMENT = 1;
     Presenter presenter;
 
     SearchMealsAdapter searchMealsAdapter;
@@ -49,7 +50,7 @@ public class CategoryMealsFragment extends Fragment implements ICategoryFragment
 
         RecyclerView recyclerView = view.findViewById(R.id.categoryMeals);
 
-        searchMealsAdapter = new SearchMealsAdapter(new ArrayList<>(),getContext());
+        searchMealsAdapter = new SearchMealsAdapter(new ArrayList<>(),getContext() , CATEGORY_FRAGMENT);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(),2,GridLayoutManager.VERTICAL,false);
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setAdapter(searchMealsAdapter);
@@ -63,7 +64,7 @@ public class CategoryMealsFragment extends Fragment implements ICategoryFragment
     }
 
     @Override
-    public void showMealsData(meals meals) {
+    public void showMealsData(Meals meals) {
        searchMealsAdapter.setList(meals.getMeals());
     }
 
