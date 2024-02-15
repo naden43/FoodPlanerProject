@@ -1,4 +1,4 @@
-package com.example.food_planer.search.view;
+package com.example.food_planer.favourate.view;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -22,6 +22,8 @@ import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.example.food_planer.R;
 import com.example.food_planer.model.Meal;
+import com.example.food_planer.model.MealDetail;
+import com.example.food_planer.search.view.SearchMealsAdapter;
 import com.example.food_planer.searchbycategory.view.CategoryMealsFragmentDirections;
 import com.example.food_planer.searchbycountry.view.CountriesMealFragmentDirections;
 import com.example.food_planer.searchbyingredents.view.ingredentsMealsFragmentDirections;
@@ -29,22 +31,23 @@ import com.example.food_planer.searchbyingredents.view.ingredentsMealsFragmentDi
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
-public class SearchMealsAdapter extends  RecyclerView.Adapter<SearchMealsAdapter.ViewHolder>{
+public class FavourateAdapter extends  RecyclerView.Adapter<FavourateAdapter.ViewHolder>{
 
-    ArrayList<Meal> meals ;
+
+    ArrayList<MealDetail> meals ;
     Context context ;
 
     int id ;
 
-    public SearchMealsAdapter(ArrayList<Meal> meals , Context context , int id) {
+    public FavourateAdapter(ArrayList<MealDetail> meals , Context context) {
         this.meals = meals;
         this.context = context;
         this.id =id ;
     }
 
-    public void setList(ArrayList<Meal> meals)
+    public void setList(ArrayList<MealDetail> meals)
     {
-         this.meals = meals;
+        this.meals = meals;
         notifyDataSetChanged();
     }
     public static class ViewHolder extends RecyclerView.ViewHolder
@@ -69,54 +72,21 @@ public class SearchMealsAdapter extends  RecyclerView.Adapter<SearchMealsAdapter
     }
     @NonNull
     @Override
-    public SearchMealsAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public FavourateAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         LayoutInflater inflater = LayoutInflater.from(context);
         View itemView = inflater.inflate(R.layout.activity_item_meal_search , parent , false);
-        SearchMealsAdapter.ViewHolder viewHolder = new SearchMealsAdapter.ViewHolder(itemView);
+        FavourateAdapter.ViewHolder viewHolder = new FavourateAdapter.ViewHolder(itemView);
         return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull SearchMealsAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull FavourateAdapter.ViewHolder holder, int position) {
 
         holder.description.setText(meals.get(position).getStrMeal());
-        // separate ?
-        /*Glide.with(context).load(meals.get(position).getStrMealThumb()).apply(new RequestOptions().
-                override(200, 200)).into(holder.img);*/
 
-        Glide.with(context)
-                .asBitmap()
-                .load(meals.get(position).getStrMealThumb())
-                .apply(new RequestOptions().override(200, 200))
-                .into(new CustomTarget<Bitmap>() {
-                    @Override
-                    public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-                        // Convert Bitmap to byte array
-                        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                        resource.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                        byte[] byteArray = stream.toByteArray();
-
-                        Log.i("TAG", "onResourceReady: ");
-                        holder.img.setImageBitmap(resource);
-                        // Save the byte array into Room
-                        /*MealEntity mealEntity = new MealEntity();
-                        mealEntity.setImage(byteArray);
-                        mealEntity.setMealName(meals.get(position).getMealName());
-                        // Set other meal details
-
-                        // Save to Room database
-                        yourRoomDatabase.mealDao().insert(mealEntity);*/
-                    }
-
-                    @Override
-                    public void onLoadCleared(@Nullable Drawable placeholder) {
-                        // This is called when the image is cleared from ImageView
-                        // Do nothing or perform cleanup here
-                    }
-                });
-
-        holder.constraintLayout.setOnClickListener(new View.OnClickListener() {
+        holder.img.setImageBitmap(meals.get(position).image);
+        /*holder.constraintLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -138,7 +108,7 @@ public class SearchMealsAdapter extends  RecyclerView.Adapter<SearchMealsAdapter
 
 
             }
-        });
+        });*/
 
     }
 

@@ -1,6 +1,8 @@
 package com.example.food_planer.mealpage.view;
 
 import android.app.DatePickerDialog;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -22,12 +24,17 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.CustomTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.example.food_planer.R;
 import com.example.food_planer.mealpage.presenter.Presenter;
 import com.example.food_planer.model.MealDetail;
+import com.example.food_planer.model.MealLocalDataSourceimpl;
 import com.example.food_planer.model.Reposatory;
 import com.example.food_planer.network.FoodRemoteSourceImpl;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.regex.Matcher;
@@ -45,6 +52,9 @@ public class MealDetails extends Fragment implements IMealDetails {
 
     boolean firstTime;
     ImageView savedBtn;
+    FloatingActionButton favourateBtn;
+
+    Presenter presenter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -70,6 +80,9 @@ public class MealDetails extends Fragment implements IMealDetails {
         instrText = view.findViewById(R.id.instructionsText);
         videoView = view.findViewById(R.id.video);
         savedBtn = view.findViewById(R.id.addToPlan);
+        favourateBtn = view.findViewById(R.id.favouratebtn);
+
+
 
          /*firstTime = true;
         savedBtn.setOnClickListener(new View.OnClickListener() {
@@ -121,7 +134,7 @@ public class MealDetails extends Fragment implements IMealDetails {
 
 
 
-        Presenter presenter = new Presenter(Reposatory.getInstance(FoodRemoteSourceImpl.getInstance()), this);
+        presenter = new Presenter(Reposatory.getInstance(FoodRemoteSourceImpl.getInstance(), MealLocalDataSourceimpl.getInstance(getContext())), this);
         presenter.getMealData(strMeal);
 
     }
@@ -131,8 +144,24 @@ public class MealDetails extends Fragment implements IMealDetails {
     public void showMealData(MealDetail mealDetails) {
         mealName.setText(mealDetails.getStrMeal());
 
-        Glide.with(getContext()).load(mealDetails.getStrMealThumb()).apply(new RequestOptions().
-                override(200, 200)).into(mealImage);
+        Glide.with(getContext())
+                .asBitmap()
+                .load(mealDetails.getStrMealThumb())
+                .apply(new RequestOptions().override(200, 200))
+                .into(new CustomTarget<Bitmap>() {
+                    @Override
+                    public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                        Log.i("TAG", "onResourceReady: ");
+                        mealDetails.image = resource;
+                        mealImage.setImageBitmap(resource);
+                    }
+                    @Override
+                    public void onLoadCleared(@Nullable Drawable placeholder) {
+                    }
+                });
+
+
+
 
         IngredientAdapter myAdapter = new IngredientAdapter(mealDetails.ingredientsMeasure(mealDetails), getContext());
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
@@ -157,6 +186,13 @@ public class MealDetails extends Fragment implements IMealDetails {
         videoView.loadData(video, "text/html", "utf-8");
         videoView.getSettings().setJavaScriptEnabled(true);
         videoView.setWebChromeClient(new WebChromeClient());
+
+        favourateBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                presenter.addToFavourate(mealDetails);
+            }
+        });
 
 
     }

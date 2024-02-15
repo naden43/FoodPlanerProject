@@ -32,6 +32,7 @@ import com.example.food_planer.model.Countries;
 import com.example.food_planer.model.Country;
 import com.example.food_planer.model.Ingredien;
 import com.example.food_planer.model.Ingredients;
+import com.example.food_planer.model.MealLocalDataSourceimpl;
 import com.example.food_planer.model.Reposatory;
 import com.example.food_planer.network.FoodRemoteSourceImpl;
 import com.example.food_planer.search.presenter.Presenter;
@@ -140,8 +141,7 @@ public class Search extends Fragment implements Isearch {
                         }
                 ).debounce(300 , TimeUnit.MILLISECONDS);
 
-                observable
-                        .observeOn(AndroidSchedulers.mainThread())
+                observable.observeOn(AndroidSchedulers.mainThread())
                         .subscribe( str -> {
                     if(categories!=null) {
                         ArrayList<Category> result = (ArrayList<Category>) categories.stream().filter(item -> item.getStrCategory().toLowerCase().contains(str.toString().toLowerCase())).collect(Collectors.toList());
@@ -155,7 +155,6 @@ public class Search extends Fragment implements Isearch {
                         ArrayList<Ingredien> result = (ArrayList<Ingredien>) ingrediens.stream().filter(item -> item.getStrIngredient().toLowerCase().contains(str.toString().toLowerCase())).collect(Collectors.toList());
                         ingredentAdapter.setList(result);
                     }
-
                 });
 
             }
@@ -198,7 +197,7 @@ public class Search extends Fragment implements Isearch {
 
 
 
-        presenter = new Presenter(Reposatory.getInstance(FoodRemoteSourceImpl.getInstance()),this);
+        presenter = new Presenter(Reposatory.getInstance(FoodRemoteSourceImpl.getInstance(), MealLocalDataSourceimpl.getInstance(getContext())),this);
 
 
 

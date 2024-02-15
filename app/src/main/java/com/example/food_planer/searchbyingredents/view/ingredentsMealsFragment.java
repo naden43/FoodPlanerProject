@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.food_planer.R;
+import com.example.food_planer.model.MealLocalDataSourceimpl;
 import com.example.food_planer.model.Reposatory;
 import com.example.food_planer.model.Meals;
 import com.example.food_planer.network.FoodRemoteSourceImpl;
@@ -57,7 +58,7 @@ public class ingredentsMealsFragment extends Fragment implements IIngredentsMeal
         String strIngredient = ingredentsMealsFragmentArgs.fromBundle(getArguments()).getStrIgredent();
 
 
-        presenter = new Presenter(Reposatory.getInstance(FoodRemoteSourceImpl.getInstance()),this);
+        presenter = new Presenter(Reposatory.getInstance(FoodRemoteSourceImpl.getInstance(), MealLocalDataSourceimpl.getInstance(getContext())),this);
         presenter.getMealsByIngredient(strIngredient);
     }
     @Override

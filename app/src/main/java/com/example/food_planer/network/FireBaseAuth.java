@@ -59,9 +59,28 @@ public class FireBaseAuth {
 
 
 
-
-
     public void makeAcallAdd(String email, String password,boolean remember,NetworkCallback networkCallback) {
+
+        auth.createUserWithEmailAndPassword(email, password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+
+
+            @Override
+            public void onSuccess(AuthResult authResult) {
+
+                networkCallback.successCall(remember);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+                e.printStackTrace();
+                networkCallback.FailCall(e.getMessage());
+            }
+        });
+
+    }
+
+    public void makeSignInCall(String email, String password,boolean remember,NetworkCallback networkCallback) {
 
         auth.signInWithEmailAndPassword(email, password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
 

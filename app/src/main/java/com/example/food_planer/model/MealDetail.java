@@ -2,62 +2,176 @@ package com.example.food_planer.model;
 
 
 
-import java.util.ArrayList;
+import android.graphics.Bitmap;
 
+import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
+
+import java.util.ArrayList;
+@Entity(tableName = "favourate_meals")
 public class MealDetail {
+
+
+        @Ignore
         public String idMeal;
+
+        @PrimaryKey
+        @NonNull
         public String strMeal;
+        @ColumnInfo(name = "image")
+        public Bitmap image;
+
+        @Ignore
         public Object strDrinkAlternate;
+
+        @ColumnInfo(name = "strCategory")
         public String strCategory;
+        @ColumnInfo(name = "strArea")
         public String strArea;
+        @ColumnInfo(name = "strInstructions")
         public String strInstructions;
+        @ColumnInfo(name = "strMealThumb")
         public String strMealThumb;
         public String strTags;
+
+        @ColumnInfo(name = "strYoutube")
         public String strYoutube;
+
+        @ColumnInfo(name = "strIngredient1")
         public String strIngredient1;
-        public String strIngredient2;
-        public String strIngredient3;
-        public String strIngredient4;
-        public String strIngredient5;
-        public String strIngredient6;
-        public String strIngredient7;
-        public String strIngredient8;
-        public String strIngredient9;
-        public String strIngredient10;
-        public String strIngredient11;
-        public String strIngredient12;
-        public String strIngredient13;
-        public String strIngredient14;
-        public String strIngredient15;
-        public String strIngredient16;
-        public String strIngredient17;
-        public String strIngredient18;
-        public String strIngredient19;
-        public String strIngredient20;
-        public String strMeasure1;
-        public String strMeasure2;
-        public String strMeasure3;
-        public String strMeasure4;
-        public String strMeasure5;
-        public String strMeasure6;
-        public String strMeasure7;
-        public String strMeasure8;
-        public String strMeasure9;
-        public String strMeasure10;
-        public String strMeasure11;
-        public String strMeasure12;
-        public String strMeasure13;
-        public String strMeasure14;
-        public String strMeasure15;
-        public String strMeasure16;
-        public String strMeasure17;
-        public String strMeasure18;
-        public String strMeasure19;
-        public String strMeasure20;
-        public String strSource;
-        public Object strImageSource;
-        public Object strCreativeCommonsConfirmed;
-        public Object dateModified;
+
+    @ColumnInfo(name = "strIngredient2")
+
+    public String strIngredient2;
+    @ColumnInfo(name = "strIngredient3")
+
+    public String strIngredient3;
+    @ColumnInfo(name = "strIngredient4")
+
+    public String strIngredient4;
+    @ColumnInfo(name = "strIngredient5")
+
+    public String strIngredient5;
+    @ColumnInfo(name = "strIngredient6")
+
+    public String strIngredient6;
+    @ColumnInfo(name = "strIngredient7")
+
+    public String strIngredient7;
+    @ColumnInfo(name = "strIngredient8")
+
+    public String strIngredient8;
+    @ColumnInfo(name = "strIngredient9")
+
+    public String strIngredient9;
+    @ColumnInfo(name = "strIngredient10")
+
+    public String strIngredient10;
+    @ColumnInfo(name = "strIngredient11")
+
+    public String strIngredient11;
+    @ColumnInfo(name = "strIngredient12")
+
+    public String strIngredient12;
+    @ColumnInfo(name = "strIngredient13")
+
+    public String strIngredient13;
+    @ColumnInfo(name = "strIngredient14")
+
+    public String strIngredient14;
+    @ColumnInfo(name = "strIngredient15")
+
+    public String strIngredient15;
+    @ColumnInfo(name = "strIngredient16")
+
+    public String strIngredient16;
+    @ColumnInfo(name = "strIngredient17")
+
+    public String strIngredient17;
+    @ColumnInfo(name = "strIngredient18")
+
+    public String strIngredient18;
+    @ColumnInfo(name = "strIngredient19")
+
+    public String strIngredient19;
+    @ColumnInfo(name = "strIngredient20")
+
+    public String strIngredient20;
+    @ColumnInfo(name = "strMeasure1")
+
+    public String strMeasure1;
+    @ColumnInfo(name = "strMeasure2")
+
+    public String strMeasure2;
+    @ColumnInfo(name = "strMeasure3")
+
+    public String strMeasure3;
+    @ColumnInfo(name = "strMeasure4")
+
+    public String strMeasure4;
+    @ColumnInfo(name = "strMeasure5")
+
+    public String strMeasure5;
+    @ColumnInfo(name = "strMeasure6")
+
+    public String strMeasure6;
+    @ColumnInfo(name = "strMeasure7")
+
+    public String strMeasure7;
+    @ColumnInfo(name = "strMeasure8")
+
+    public String strMeasure8;
+    @ColumnInfo(name = "strMeasure9")
+
+    public String strMeasure9;
+    @ColumnInfo(name = "strMeasure10")
+
+    public String strMeasure10;
+    @ColumnInfo(name = "strMeasure11")
+
+    public String strMeasure11;
+    @ColumnInfo(name = "strMeasure12")
+
+    public String strMeasure12;
+    @ColumnInfo(name = "strMeasure13")
+
+    public String strMeasure13;
+    @ColumnInfo(name = "strMeasure14")
+
+    public String strMeasure14;
+    @ColumnInfo(name = "strMeasure15")
+
+    public String strMeasure15;
+    @ColumnInfo(name = "strMeasure16")
+
+    public String strMeasure16;
+    @ColumnInfo(name = "strMeasure17")
+
+    public String strMeasure17;
+    @ColumnInfo(name = "strMeasure18")
+
+    public String strMeasure18;
+    @ColumnInfo(name = "strMeasure19")
+
+    public String strMeasure19;
+    @ColumnInfo(name = "strMeasure20")
+
+    public String strMeasure20;
+
+    @Ignore
+    public String strSource;
+
+    @Ignore
+    public Object strImageSource;
+
+    @Ignore
+    public Object strCreativeCommonsConfirmed;
+
+    @Ignore
+    public Object dateModified;
 
         public String getIdMeal() {
             return idMeal;

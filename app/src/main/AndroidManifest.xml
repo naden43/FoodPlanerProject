@@ -17,7 +17,10 @@
         android:theme="@style/Theme.Food_Planer"
         tools:targetApi="31">
         <activity
-            android:name=".IngredientItem"
+            android:name=".weekmeals.view.WeekMealItem"
+            android:exported="false" />
+        <activity
+            android:name=".mealpage.view.IngredientItem"
             android:exported="false" />
         <activity
             android:name=".search.view.itemMealSearch"
@@ -29,10 +32,10 @@
             android:name=".home.view.item"
             android:exported="false" />
         <activity
-            android:windowSoftInputMode="adjustPan"
-            android:configChanges="keyboardHidden|orientation|screenSize"
             android:name=".NavigationActivity"
-            android:exported="false" />
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="false"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".register.view.RegisterActivity"
             android:exported="false" />

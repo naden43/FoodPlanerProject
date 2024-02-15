@@ -34,4 +34,8 @@ public class LoginAndRegisterReposatory {
    {
        return rememberFile.checkSavedLogin();
    }
+
+   public void userSignIn(String email , String password , Boolean remember , NetworkCallback networkCallback){
+       auth.makeSignInCall(email, password, remember, networkCallback );
+   }
 }

@@ -9,6 +9,10 @@ import com.example.food_planer.network.MealCallBack;
 import com.example.food_planer.network.MealDetailsCallBack;
 import com.example.food_planer.network.SearchMealsCallBack;
 
+import java.util.List;
+
+import io.reactivex.rxjava3.core.Flowable;
+
 public class Reposatory {
 
     private static Reposatory instance = null;
@@ -16,18 +20,21 @@ public class Reposatory {
 
 
     FoodRemoteSourceImpl foodRemoteSource;
+    MealLocalDataSource mealLocalDataSource;
 
-    private Reposatory(FoodRemoteSourceImpl foodRemoteSource)
+    private Reposatory(FoodRemoteSourceImpl foodRemoteSource ,MealLocalDataSource mealLocalDataSource)
     {
 
         this.foodRemoteSource = foodRemoteSource;
+
+        this.mealLocalDataSource = mealLocalDataSource;
     }
 
-    static public Reposatory getInstance(FoodRemoteSourceImpl foodRemoteSource)
+    static public Reposatory getInstance(FoodRemoteSourceImpl foodRemoteSource , MealLocalDataSource mealLocalDataSource)
     {
         if(instance==null)
         {
-            instance = new Reposatory(foodRemoteSource);
+            instance = new Reposatory(foodRemoteSource,mealLocalDataSource);
         }
         return instance;
     }
@@ -70,6 +77,22 @@ public class Reposatory {
 
     public void  makeAMealsDetailsCall(MealDetailsCallBack mealDetailsCallBack , String strMeal){
         foodRemoteSource.makeAMealDetailsCall(mealDetailsCallBack , strMeal);
+    }
+
+    public Flowable<List<MealDetail>> getFavourates() {
+
+        return mealLocalDataSource.getFavourates();
+    }
+
+
+    public void removeFavourate(MealDetail favourate) {
+
+        mealLocalDataSource.removeFavourate(favourate);
+    }
+
+
+    public void addToFavourate(MealDetail favourate){
+        mealLocalDataSource.addToFavourate(favourate);
     }
 
 }

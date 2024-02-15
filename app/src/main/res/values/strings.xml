@@ -36,4 +36,5 @@
     <string name="instructions">Instructions</string>
     <string name="Video">Meal Video</string>
     <string name="search_for_category_country_or_ingredient">Search For Category , Country or Ingredient</string>
+    <string name="Favourate">Favourate</string>
 </resources>

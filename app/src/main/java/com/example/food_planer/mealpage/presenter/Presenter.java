@@ -21,6 +21,11 @@ public class Presenter implements IPresenter , MealDetailsCallBack {
     }
 
     @Override
+    public void addToFavourate(MealDetail mealDetail) {
+        repo.addToFavourate(mealDetail);
+    }
+
+    @Override
     public void onSuccess(MealDetail meal) {
         view.showMealData(meal);
     }

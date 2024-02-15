@@ -31,7 +31,7 @@ public class Presenter implements IPresenter , NetworkCallback {
         else {
             this.email = email;
             this.password = password;
-            repo.makeAddCall(email ,password ,  remember, this);
+            repo.userSignIn(email ,password ,  remember, this);
         }
     }
 

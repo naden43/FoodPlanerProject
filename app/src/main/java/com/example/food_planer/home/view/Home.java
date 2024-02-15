@@ -28,6 +28,7 @@ import android.widget.Toast;
 import com.example.food_planer.R;
 import com.example.food_planer.home.presenter.Presenter;
 import com.example.food_planer.model.Meal;
+import com.example.food_planer.model.MealLocalDataSourceimpl;
 import com.example.food_planer.model.Reposatory;
 import com.example.food_planer.network.FoodRemoteSourceImpl;
 
@@ -103,7 +104,6 @@ public class Home extends Fragment implements Ihome {
 
         ConnectivityManager connectivityManager = (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         connectivityManager.requestNetwork(networkRequest , networkCallback);
-
         NetworkInfo activeNetwork = connectivityManager.getActiveNetworkInfo();
 
         RecyclerView recyclerView;
@@ -123,7 +123,7 @@ public class Home extends Fragment implements Ihome {
         recyclerView1.setLayoutManager(layoutManagerRandom);
         recyclerView1.setAdapter(myAdapterRandom);
 
-        Reposatory repo = Reposatory.getInstance(FoodRemoteSourceImpl.getInstance());
+        Reposatory repo = Reposatory.getInstance(FoodRemoteSourceImpl.getInstance() , MealLocalDataSourceimpl.getInstance(getContext()));
         presenter = new Presenter(repo, Home.this);
 
         Log.i(TAG, "onViewCreated: " + "before");
