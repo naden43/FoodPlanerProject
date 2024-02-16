@@ -8,6 +8,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -27,6 +29,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.example.food_planer.R;
+import com.example.food_planer.home.view.HomeDirections;
 import com.example.food_planer.mealpage.presenter.Presenter;
 import com.example.food_planer.model.MealDetail;
 import com.example.food_planer.model.MealLocalDataSourceimpl;
@@ -52,6 +55,8 @@ public class MealDetails extends Fragment implements IMealDetails {
 
     boolean firstTime;
     ImageView savedBtn;
+
+    ImageView back;
     FloatingActionButton favourateBtn;
 
     Presenter presenter;
@@ -73,6 +78,7 @@ public class MealDetails extends Fragment implements IMealDetails {
         super.onViewCreated(view, savedInstanceState);
 
         String strMeal = MealDetailsArgs.fromBundle(getArguments()).getStrMeal();
+        int id = MealDetailsArgs.fromBundle(getArguments()).getId();
 
         mealName = view.findViewById(R.id.mealName);
         ingredientList = view.findViewById(R.id.ingredientsRecycularView);
@@ -81,28 +87,15 @@ public class MealDetails extends Fragment implements IMealDetails {
         videoView = view.findViewById(R.id.video);
         savedBtn = view.findViewById(R.id.addToPlan);
         favourateBtn = view.findViewById(R.id.favouratebtn);
+        back = view.findViewById(R.id.backBtn);
 
-
-
-         /*firstTime = true;
-        savedBtn.setOnClickListener(new View.OnClickListener() {
+        back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                Log.i("TAG", "onClick: ");
-                if(firstTime == true)
-                {
-                    Log.i("TAG", "onClick: " + "here");
-                    savedBtn.setImageResource(R.drawable.saved);
-                    firstTime = false;
-
-                }
-                else {
-                    savedBtn.setImageResource(R.drawable.add);
-                    firstTime = true;
-                }
+                getFragmentManager().popBackStack();
             }
-        });*/
+        });
+
 
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
@@ -120,7 +113,7 @@ public class MealDetails extends Fragment implements IMealDetails {
                             @Override
                             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
 
-                                Log.i("TAG", "onDateSet: " + calendar.get(Calendar.DAY_OF_WEEK));
+                                Log.i("TAG", "onDateSet: ");
                             }
                         }
 
@@ -132,11 +125,16 @@ public class MealDetails extends Fragment implements IMealDetails {
             }
         });
 
-
-
         presenter = new Presenter(Reposatory.getInstance(FoodRemoteSourceImpl.getInstance(), MealLocalDataSourceimpl.getInstance(getContext())), this);
-        presenter.getMealData(strMeal);
 
+        if(id==1) {
+             presenter.getLocalMealData(strMeal);
+             savedBtn.setVisibility(View.GONE);
+             favourateBtn.setVisibility(View.GONE);
+        }
+        else {
+            presenter.getMealData(strMeal);
+        }
     }
 
 
@@ -159,8 +157,6 @@ public class MealDetails extends Fragment implements IMealDetails {
                     public void onLoadCleared(@Nullable Drawable placeholder) {
                     }
                 });
-
-
 
 
         IngredientAdapter myAdapter = new IngredientAdapter(mealDetails.ingredientsMeasure(mealDetails), getContext());

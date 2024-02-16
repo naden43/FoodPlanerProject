@@ -95,4 +95,8 @@ public class Reposatory {
         mealLocalDataSource.addToFavourate(favourate);
     }
 
+    public void getLocalMeal(String strMeal , DataBaseDelegate dataBaseDelegate){
+        mealLocalDataSource.getMeal(strMeal ,dataBaseDelegate);
+    }
+
 }

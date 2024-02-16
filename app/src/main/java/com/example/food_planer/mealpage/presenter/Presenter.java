@@ -1,11 +1,12 @@
 package com.example.food_planer.mealpage.presenter;
 
 import com.example.food_planer.mealpage.view.IMealDetails;
+import com.example.food_planer.model.DataBaseDelegate;
 import com.example.food_planer.model.MealDetail;
 import com.example.food_planer.model.Reposatory;
 import com.example.food_planer.network.MealDetailsCallBack;
 
-public class Presenter implements IPresenter , MealDetailsCallBack {
+public class Presenter implements IPresenter , MealDetailsCallBack , DataBaseDelegate {
 
     Reposatory repo;
     IMealDetails view ;
@@ -18,6 +19,11 @@ public class Presenter implements IPresenter , MealDetailsCallBack {
     @Override
     public void getMealData(String strMeal) {
         repo.makeAMealsDetailsCall(this , strMeal);
+    }
+
+    @Override
+    public void getLocalMealData(String strMeal) {
+         repo.getLocalMeal(strMeal ,this);
     }
 
     @Override

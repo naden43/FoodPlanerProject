@@ -20,7 +20,6 @@ import android.widget.Toast;
 
 import com.example.food_planer.NavigationActivity;
 import com.example.food_planer.R;
-import com.example.food_planer.home.view.HomeDirections;
 import com.example.food_planer.register.view.RegisterActivity;
 import com.example.food_planer.login.presenter.Presenter;
 import com.example.food_planer.model.LoginAndRegisterReposatory;
@@ -35,6 +34,7 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -106,10 +106,10 @@ public class LoginActivity extends AppCompatActivity implements ILoginActivity {
         sharedPreferences = getSharedPreferences(FILENAME ,Context.MODE_PRIVATE);
         presenter = new Presenter(LoginAndRegisterReposatory.getInstance(UserLocalDataSourceimpl.getInstance(sharedPreferences) , FireBaseAuth.getInstance(auth)), this);
 
-        //presenter.checkSavedLogin();
+        presenter.checkSavedLogin();
 
 
-        //FirebaseApp.initializeApp(this);
+        FirebaseApp.initializeApp(this);
 
         emailTxt = findViewById(R.id.txtEmail);
         passwordTxt = findViewById(R.id.passwordTxt);
@@ -140,7 +140,6 @@ public class LoginActivity extends AppCompatActivity implements ILoginActivity {
                 String email = emailTxt.getText().toString().trim();
                 String password = passwordTxt.getText().toString().trim();
                 presenter.signIn(email , password , remember.isChecked());
-                //startActivity(new Intent(LoginActivity.this , NavigationActivity.class));
             }
         });
 
@@ -148,6 +147,7 @@ public class LoginActivity extends AppCompatActivity implements ILoginActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(LoginActivity.this , RegisterActivity.class));
+                finish();
             }
         });
 

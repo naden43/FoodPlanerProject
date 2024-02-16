@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.example.food_planer.R;
 import com.example.food_planer.favourate.presenter.Presenter;
@@ -35,7 +36,7 @@ import io.reactivex.rxjava3.core.Flowable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
 
-public class Favourate extends Fragment implements IFavourate {
+public class Favourate extends Fragment implements IFavourate , deleteSetOnClickListener {
 
 
     ConstraintLayout loginMessage;
@@ -43,6 +44,8 @@ public class Favourate extends Fragment implements IFavourate {
 
     Presenter presenter;
     FavourateAdapter favourateAdapter;
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,7 +68,7 @@ public class Favourate extends Fragment implements IFavourate {
 
         RecyclerView recyclerView = view.findViewById(R.id.favourateList);
 
-        favourateAdapter = new FavourateAdapter(new ArrayList<>(),getContext());
+        favourateAdapter = new FavourateAdapter(new ArrayList<>(),this,getContext());
         LinearLayoutManager ingredentslayoutManager = new LinearLayoutManager(getContext());
         ingredentslayoutManager.setOrientation(RecyclerView.HORIZONTAL);
         recyclerView.setLayoutManager(ingredentslayoutManager);
@@ -75,7 +78,6 @@ public class Favourate extends Fragment implements IFavourate {
         presenter = new Presenter(LoginAndRegisterReposatory.getInstance(UserLocalDataSourceimpl.getInstance(sharedPreferences), FireBaseAuth.getInstance(null)), Reposatory.getInstance(FoodRemoteSourceImpl.getInstance(), MealLocalDataSourceimpl.getInstance(getContext())),this);
 
         presenter.getUserMode();
-
 
 
 
@@ -101,5 +103,10 @@ public class Favourate extends Fragment implements IFavourate {
                 .subscribe(
                         item -> favourateAdapter.setList((ArrayList<MealDetail>) item)
                 );
+    }
+
+    @Override
+    public void deleteFavourateItem(MealDetail mealDetail) {
+        presenter.RemoveFromFavourate(mealDetail);
     }
 }

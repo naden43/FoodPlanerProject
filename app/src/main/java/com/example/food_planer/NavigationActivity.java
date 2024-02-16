@@ -13,6 +13,7 @@ import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 
@@ -35,6 +36,17 @@ public class NavigationActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(bottomNavigationView ,navController);
 
 
+        navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
+
+            if (destination.getId() == R.id.mealDetails ) {
+                bottomNavigationView.setVisibility(View.GONE);
+            } else if(destination.getId() == R.id.categoryMealsFragment || destination.getId() == R.id.countriesMealFragment || destination.getId() == R.id.ingredentsMealsFragment ) {
+                bottomNavigationView.setVisibility(View.GONE);
+            }
+            else{
+                bottomNavigationView.setVisibility(View.VISIBLE);
+            }
+        });
 
     }
 

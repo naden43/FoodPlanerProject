@@ -22,6 +22,9 @@ public interface MealDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     public void insert(MealDetail mealDetail);
 
+    @Query("SELECT * FROM favourate_meals WHERE strMeal = :mealName")
+    public MealDetail getMeal(String mealName);
+
     @Delete
     public void delete(MealDetail mealDetail);
 }

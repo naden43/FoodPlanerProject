@@ -12,7 +12,8 @@
         tools:layout="@layout/fragment_home" >
         <action
             android:id="@+id/action_home2_to_mealDetails"
-            app:destination="@id/mealDetails" />
+            app:destination="@id/mealDetails"
+            app:popUpTo="@id/home2" />
     </fragment>
     <fragment
         android:id="@+id/profile"
@@ -38,7 +39,11 @@
         android:id="@+id/favourate"
         android:name="com.example.food_planer.favourate.view.Favourate"
         android:label="fragment_favourate"
-        tools:layout="@layout/fragment_favourate" />
+        tools:layout="@layout/fragment_favourate" >
+        <action
+            android:id="@+id/action_favourate_to_mealDetails"
+            app:destination="@id/mealDetails" />
+    </fragment>
     <fragment
         android:id="@+id/weekMeals"
         android:name="com.example.food_planer.weekmeals.view.WeekMeals"
@@ -95,5 +100,9 @@
             app:argType="string"
             app:nullable="true"
             android:defaultValue="null" />
+        <argument
+            android:name="id"
+            app:argType="integer"
+            android:defaultValue="0" />
     </fragment>
 </navigation>

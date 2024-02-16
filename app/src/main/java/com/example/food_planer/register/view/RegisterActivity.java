@@ -71,6 +71,7 @@ public class RegisterActivity extends AppCompatActivity implements IRegisterActi
                             Toast.makeText(RegisterActivity.this, "SignIn Successful", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
                             startActivity(intent);
+                            finish();
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
@@ -103,7 +104,7 @@ public class RegisterActivity extends AppCompatActivity implements IRegisterActi
         passwordTxt = findViewById(R.id.passwordTxt);
         confirmPasswordTxt = findViewById(R.id.confirmpassTxt);
         registerBtn = findViewById(R.id.btnRegister);
-        loginRedirect = findViewById(R.id.loginNavigate);
+        loginRedirect = findViewById(R.id.registerNavigation);
         signInButton = findViewById(R.id.signUpButton);
 
 
@@ -137,6 +138,7 @@ public class RegisterActivity extends AppCompatActivity implements IRegisterActi
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(RegisterActivity.this ,LoginActivity.class));
+                finish();
             }
         });
 
@@ -171,6 +173,7 @@ public class RegisterActivity extends AppCompatActivity implements IRegisterActi
     public void showSuccess() {
         Toast.makeText(RegisterActivity.this, "Register successful", Toast.LENGTH_SHORT).show();
         startActivity(new Intent(RegisterActivity.this , LoginActivity.class));
+        finish();
     }
 
 }

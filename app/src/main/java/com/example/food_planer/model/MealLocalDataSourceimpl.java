@@ -7,7 +7,10 @@ import com.example.food_planer.db.RoomDataBase;
 
 import java.util.List;
 
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class MealLocalDataSourceimpl implements MealLocalDataSource{
 
@@ -15,6 +18,7 @@ public class MealLocalDataSourceimpl implements MealLocalDataSource{
 
     RoomDataBase db ;
     private Flowable<List<MealDetail>> favourates;
+
 
     MealLocalDataSourceimpl remote;
     private MealLocalDataSourceimpl(Context context)
@@ -49,10 +53,21 @@ public class MealLocalDataSourceimpl implements MealLocalDataSource{
         {
             @Override
             public void run() {
-
                 db.getMealDao().insert(mealDetail);
             }
         }.start();
+    }
+
+    @Override
+    public void getMeal(String strMeal, DataBaseDelegate dataBaseDelegate) {
+        Observable.create(
+                item -> item.onNext(db.getMealDao().getMeal(strMeal))
+        ).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        item -> dataBaseDelegate.onSuccess((MealDetail) item)
+                );
+
     }
 
     public static MealLocalDataSourceimpl getInstance(Context context){

@@ -37,4 +37,9 @@
     <string name="Video">Meal Video</string>
     <string name="search_for_category_country_or_ingredient">Search For Category , Country or Ingredient</string>
     <string name="Favourate">Favourate</string>
+    <string name="productName">Foodly</string>
+    <string name="IngredientMeals">Ingredient Meals</string>
+    <string name="CountriesMeals">Country Meals</string>
+    <string name="search_by_meal_name">Search By Meal Name</string>
+    <string name="CategoryMeals">Category Meals</string>
 </resources>

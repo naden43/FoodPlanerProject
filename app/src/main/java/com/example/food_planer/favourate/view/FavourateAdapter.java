@@ -27,6 +27,7 @@ import com.example.food_planer.search.view.SearchMealsAdapter;
 import com.example.food_planer.searchbycategory.view.CategoryMealsFragmentDirections;
 import com.example.food_planer.searchbycountry.view.CountriesMealFragmentDirections;
 import com.example.food_planer.searchbyingredents.view.ingredentsMealsFragmentDirections;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
@@ -37,11 +38,13 @@ public class FavourateAdapter extends  RecyclerView.Adapter<FavourateAdapter.Vie
     ArrayList<MealDetail> meals ;
     Context context ;
 
+    deleteSetOnClickListener listener;
     int id ;
 
-    public FavourateAdapter(ArrayList<MealDetail> meals , Context context) {
+    public FavourateAdapter(ArrayList<MealDetail> meals ,deleteSetOnClickListener listener ,Context context) {
         this.meals = meals;
         this.context = context;
+        this.listener = listener;
         this.id =id ;
     }
 
@@ -59,6 +62,8 @@ public class FavourateAdapter extends  RecyclerView.Adapter<FavourateAdapter.Vie
 
         public ConstraintLayout constraintLayout;
 
+        FloatingActionButton delete;
+
         public View layout;
 
 
@@ -68,6 +73,7 @@ public class FavourateAdapter extends  RecyclerView.Adapter<FavourateAdapter.Vie
             constraintLayout = itemView.findViewById(R.id.constarinView);
             description = itemView.findViewById(R.id.mealName);
             img = itemView.findViewById(R.id.img);
+            delete = itemView.findViewById(R.id.delete);
         }
     }
     @NonNull
@@ -75,7 +81,7 @@ public class FavourateAdapter extends  RecyclerView.Adapter<FavourateAdapter.Vie
     public FavourateAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         LayoutInflater inflater = LayoutInflater.from(context);
-        View itemView = inflater.inflate(R.layout.activity_item_meal_search , parent , false);
+        View itemView = inflater.inflate(R.layout.favourate_item , parent , false);
         FavourateAdapter.ViewHolder viewHolder = new FavourateAdapter.ViewHolder(itemView);
         return viewHolder;
     }
@@ -86,6 +92,22 @@ public class FavourateAdapter extends  RecyclerView.Adapter<FavourateAdapter.Vie
         holder.description.setText(meals.get(position).getStrMeal());
 
         holder.img.setImageBitmap(meals.get(position).image);
+        holder.delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.deleteFavourateItem(meals.get(position));
+            }
+        });
+
+        holder.constraintLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FavourateDirections.ActionFavourateToMealDetails action = FavourateDirections.actionFavourateToMealDetails();
+                action.setStrMeal(meals.get(position).strMeal);
+                action.setId(1);
+                Navigation.findNavController(v).navigate(action);
+            }
+        });
         /*holder.constraintLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -94,7 +116,7 @@ public class FavourateAdapter extends  RecyclerView.Adapter<FavourateAdapter.Vie
                     CategoryMealsFragmentDirections.ActionCategoryMealsFragmentToMealDetails action = CategoryMealsFragmentDirections.actionCategoryMealsFragmentToMealDetails();
                     action.setStrMeal(meals.get(position).getStrMeal());
                     Navigation.findNavController(v).navigate(action);
-                }
+
                 else if(id==2){
                     CountriesMealFragmentDirections.ActionCountriesMealFragmentToMealDetails action = CountriesMealFragmentDirections.actionCountriesMealFragmentToMealDetails();
                     action.setStrMeal(meals.get(position).getStrMeal());
