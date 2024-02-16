@@ -4,7 +4,18 @@
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
         <item name="bottomAppBarStyle"></item>
+        <item name="android:colorPrimaryDark">@color/main_color</item>
+        <item name="android:colorPrimary">@color/main_color</item>
     </style>
-
     <style name="Theme.Food_Planer" parent="Base.Theme.Food_Planer" />
+    <style name="CustomDatePickerDialog" parent="@android:style/Theme.DeviceDefault.Light.Dialog">
+        <item name="android:datePickerStyle">@style/CustomDatePicker</item>
+    </style>
+    <style name="CustomDatePicker">
+        <item name="android:headerBackground">@color/main_color</item>
+        <item name="android:calendarTextColor">@color/black</item>
+        <item name="android:dayOfWeekBackground">@color/main_color</item>
+        <item name="android:selectedWeekBackgroundColor">@color/main_color</item>
+        <item name="android:datePickerMode">calendar</item>
+    </style>
 </resources>

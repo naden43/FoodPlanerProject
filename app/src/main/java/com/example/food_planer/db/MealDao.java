@@ -8,7 +8,9 @@ import androidx.room.Query;
 
 import com.example.food_planer.mealpage.view.MealDetails;
 import com.example.food_planer.model.MealDetail;
+import com.example.food_planer.model.WeekMealDetail;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.rxjava3.core.Flowable;
@@ -27,4 +29,8 @@ public interface MealDao {
 
     @Delete
     public void delete(MealDetail mealDetail);
+
+    @Query("SELECT * FROM favourate_meals WHERE Day = :day and month = :month and year = :year")
+    public List<MealDetail> getMeal(int day , int month , int year);
+
 }

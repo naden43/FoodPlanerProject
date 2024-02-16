@@ -33,10 +33,12 @@ import com.example.food_planer.model.Country;
 import com.example.food_planer.model.Ingredien;
 import com.example.food_planer.model.Ingredients;
 import com.example.food_planer.model.MealLocalDataSourceimpl;
+import com.example.food_planer.model.PlanMealLocalDataSourceimpl;
 import com.example.food_planer.model.Reposatory;
 import com.example.food_planer.network.FoodRemoteSourceImpl;
 import com.example.food_planer.search.presenter.Presenter;
 import com.example.food_planer.model.Categories;
+import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -81,7 +83,66 @@ public class Search extends Fragment implements Isearch {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        ConstraintLayout networkLayout = view.findViewById(R.id.networkMessage);
+        RecyclerView searchList = view.findViewById(R.id.SearchList);
+
+        TabLayout searchBy = view.findViewById(R.id.tabLayout);
+
+       searchBy.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+
+                Log.i("TAG", "onTabSelected: "+ tab.getText());
+                if(tab.getText().equals("Category")){
+
+                    categoryAdapter = new CategoryAdapter(new ArrayList<>(),getContext());
+                    LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+                    layoutManager.setOrientation(RecyclerView.VERTICAL);
+                    searchList.setLayoutManager(layoutManager);
+                    searchList.setAdapter(categoryAdapter);
+                    presenter.getAllCategories();
+                }
+                else if(tab.getText().equals("Country")){
+                    countryAdapter = new CountryAdapter(new ArrayList<>(),getContext());
+                    LinearLayoutManager countrylayoutManager = new LinearLayoutManager(getContext());
+                    countrylayoutManager.setOrientation(RecyclerView.VERTICAL);
+                    searchList.setLayoutManager(countrylayoutManager);
+                    searchList.setAdapter(countryAdapter);
+                    presenter.getAllCountries();
+                }
+                else {
+                    ingredentAdapter = new IngredentAdapter(new ArrayList<>(),getContext());
+                    LinearLayoutManager ingredentslayoutManager = new LinearLayoutManager(getContext());
+                    ingredentslayoutManager.setOrientation(RecyclerView.VERTICAL);
+                    searchList.setLayoutManager(ingredentslayoutManager);
+                    searchList.setAdapter(ingredentAdapter);
+                    presenter.getAllIngredents();
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
+        categoryAdapter = new CategoryAdapter(new ArrayList<>(),getContext());
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        layoutManager.setOrientation(RecyclerView.VERTICAL);
+        searchList.setLayoutManager(layoutManager);
+        searchList.setAdapter(categoryAdapter);
+
+        presenter = new Presenter(Reposatory.getInstance(FoodRemoteSourceImpl.getInstance(), MealLocalDataSourceimpl.getInstance(getContext()), PlanMealLocalDataSourceimpl.getInstance(getContext())),this);
+        presenter.getAllCategories();
+
+
+
+        /*ConstraintLayout networkLayout = view.findViewById(R.id.networkMessage);
         ScrollView page = view.findViewById(R.id.searchPage);
 
 
@@ -198,6 +259,8 @@ public class Search extends Fragment implements Isearch {
 
 
         presenter = new Presenter(Reposatory.getInstance(FoodRemoteSourceImpl.getInstance(), MealLocalDataSourceimpl.getInstance(getContext())),this);
+*/
+
 
 
 

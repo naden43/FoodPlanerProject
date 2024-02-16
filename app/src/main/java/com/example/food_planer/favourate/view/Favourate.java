@@ -22,6 +22,7 @@ import com.example.food_planer.login.view.LoginActivity;
 import com.example.food_planer.model.LoginAndRegisterReposatory;
 import com.example.food_planer.model.MealDetail;
 import com.example.food_planer.model.MealLocalDataSourceimpl;
+import com.example.food_planer.model.PlanMealLocalDataSourceimpl;
 import com.example.food_planer.model.Reposatory;
 import com.example.food_planer.model.UserLocalDataSourceimpl;
 import com.example.food_planer.network.FireBaseAuth;
@@ -75,7 +76,7 @@ public class Favourate extends Fragment implements IFavourate , deleteSetOnClick
         recyclerView.setAdapter(favourateAdapter);
 
         SharedPreferences sharedPreferences = getContext().getSharedPreferences(LoginActivity.FILENAME , Context.MODE_PRIVATE);
-        presenter = new Presenter(LoginAndRegisterReposatory.getInstance(UserLocalDataSourceimpl.getInstance(sharedPreferences), FireBaseAuth.getInstance(null)), Reposatory.getInstance(FoodRemoteSourceImpl.getInstance(), MealLocalDataSourceimpl.getInstance(getContext())),this);
+        presenter = new Presenter(LoginAndRegisterReposatory.getInstance(UserLocalDataSourceimpl.getInstance(sharedPreferences), FireBaseAuth.getInstance(null)), Reposatory.getInstance(FoodRemoteSourceImpl.getInstance(), MealLocalDataSourceimpl.getInstance(getContext()), PlanMealLocalDataSourceimpl.getInstance(getContext())),this);
 
         presenter.getUserMode();
 

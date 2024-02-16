@@ -29,6 +29,7 @@ import com.example.food_planer.R;
 import com.example.food_planer.home.presenter.Presenter;
 import com.example.food_planer.model.Meal;
 import com.example.food_planer.model.MealLocalDataSourceimpl;
+import com.example.food_planer.model.PlanMealLocalDataSourceimpl;
 import com.example.food_planer.model.Reposatory;
 import com.example.food_planer.network.FoodRemoteSourceImpl;
 
@@ -123,7 +124,7 @@ public class Home extends Fragment implements Ihome {
         recyclerView1.setLayoutManager(layoutManagerRandom);
         recyclerView1.setAdapter(myAdapterRandom);
 
-        Reposatory repo = Reposatory.getInstance(FoodRemoteSourceImpl.getInstance() , MealLocalDataSourceimpl.getInstance(getContext()));
+        Reposatory repo = Reposatory.getInstance(FoodRemoteSourceImpl.getInstance() , MealLocalDataSourceimpl.getInstance(getContext()), PlanMealLocalDataSourceimpl.getInstance(getContext()));
         presenter = new Presenter(repo, Home.this);
 
         Log.i(TAG, "onViewCreated: " + "before");

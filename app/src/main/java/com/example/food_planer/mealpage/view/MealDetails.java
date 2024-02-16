@@ -33,7 +33,9 @@ import com.example.food_planer.home.view.HomeDirections;
 import com.example.food_planer.mealpage.presenter.Presenter;
 import com.example.food_planer.model.MealDetail;
 import com.example.food_planer.model.MealLocalDataSourceimpl;
+import com.example.food_planer.model.PlanMealLocalDataSourceimpl;
 import com.example.food_planer.model.Reposatory;
+import com.example.food_planer.model.WeekMealDetail;
 import com.example.food_planer.network.FoodRemoteSourceImpl;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -60,6 +62,8 @@ public class MealDetails extends Fragment implements IMealDetails {
     FloatingActionButton favourateBtn;
 
     Presenter presenter;
+
+    MealDetail meal;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -112,8 +116,8 @@ public class MealDetails extends Fragment implements IMealDetails {
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-
-                                Log.i("TAG", "onDateSet: ");
+                                WeekMealDetail weekMealDetail = new WeekMealDetail(meal.strMeal,dayOfMonth , meal ,month ,year);
+                                presenter.addToPlan(weekMealDetail);
                             }
                         }
 
@@ -125,7 +129,7 @@ public class MealDetails extends Fragment implements IMealDetails {
             }
         });
 
-        presenter = new Presenter(Reposatory.getInstance(FoodRemoteSourceImpl.getInstance(), MealLocalDataSourceimpl.getInstance(getContext())), this);
+        presenter = new Presenter(Reposatory.getInstance(FoodRemoteSourceImpl.getInstance(), MealLocalDataSourceimpl.getInstance(getContext()), PlanMealLocalDataSourceimpl.getInstance(getContext())), this);
 
         if(id==1) {
              presenter.getLocalMealData(strMeal);
@@ -141,7 +145,7 @@ public class MealDetails extends Fragment implements IMealDetails {
     @Override
     public void showMealData(MealDetail mealDetails) {
         mealName.setText(mealDetails.getStrMeal());
-
+        meal = mealDetails;
         Glide.with(getContext())
                 .asBitmap()
                 .load(mealDetails.getStrMealThumb())
@@ -151,6 +155,7 @@ public class MealDetails extends Fragment implements IMealDetails {
                     public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
                         Log.i("TAG", "onResourceReady: ");
                         mealDetails.image = resource;
+                        meal.image = resource;
                         mealImage.setImageBitmap(resource);
                     }
                     @Override

@@ -108,30 +108,6 @@ public class FavourateAdapter extends  RecyclerView.Adapter<FavourateAdapter.Vie
                 Navigation.findNavController(v).navigate(action);
             }
         });
-        /*holder.constraintLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if(id == 1){
-                    CategoryMealsFragmentDirections.ActionCategoryMealsFragmentToMealDetails action = CategoryMealsFragmentDirections.actionCategoryMealsFragmentToMealDetails();
-                    action.setStrMeal(meals.get(position).getStrMeal());
-                    Navigation.findNavController(v).navigate(action);
-
-                else if(id==2){
-                    CountriesMealFragmentDirections.ActionCountriesMealFragmentToMealDetails action = CountriesMealFragmentDirections.actionCountriesMealFragmentToMealDetails();
-                    action.setStrMeal(meals.get(position).getStrMeal());
-                    Navigation.findNavController(v).navigate(action);
-                }
-                else{
-                    ingredentsMealsFragmentDirections.ActionIngredentsMealsFragmentToMealDetails action = ingredentsMealsFragmentDirections.actionIngredentsMealsFragmentToMealDetails();
-                    action.setStrMeal(meals.get(position).getStrMeal());
-                    Navigation.findNavController(v).navigate(action);
-                }
-
-
-            }
-        });*/
-
     }
 
     @Override

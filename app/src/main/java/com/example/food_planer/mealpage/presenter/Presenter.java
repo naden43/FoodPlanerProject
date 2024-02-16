@@ -4,7 +4,10 @@ import com.example.food_planer.mealpage.view.IMealDetails;
 import com.example.food_planer.model.DataBaseDelegate;
 import com.example.food_planer.model.MealDetail;
 import com.example.food_planer.model.Reposatory;
+import com.example.food_planer.model.WeekMealDetail;
 import com.example.food_planer.network.MealDetailsCallBack;
+
+import java.util.ArrayList;
 
 public class Presenter implements IPresenter , MealDetailsCallBack , DataBaseDelegate {
 
@@ -32,8 +35,18 @@ public class Presenter implements IPresenter , MealDetailsCallBack , DataBaseDel
     }
 
     @Override
+    public void addToPlan(WeekMealDetail weekMealDetail) {
+        repo.addToPlan(weekMealDetail);
+    }
+
+    @Override
     public void onSuccess(MealDetail meal) {
         view.showMealData(meal);
+    }
+
+    @Override
+    public void onSuccess(ArrayList<MealDetail> mealDetails) {
+
     }
 
     @Override

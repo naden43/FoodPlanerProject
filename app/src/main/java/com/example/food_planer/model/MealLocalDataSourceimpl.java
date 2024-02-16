@@ -5,6 +5,7 @@ import android.content.Context;
 import com.example.food_planer.db.MealDao;
 import com.example.food_planer.db.RoomDataBase;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
@@ -69,6 +70,28 @@ public class MealLocalDataSourceimpl implements MealLocalDataSource{
                 );
 
     }
+
+    @Override
+    public void getWeekMeal(int day, int month, int year , DataBaseDelegate dataBaseDelegate) {
+        Observable.create(
+                        item -> item.onNext(db.getMealDao().getMeal(day,month, year))
+                ).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        item -> dataBaseDelegate.onSuccess((ArrayList<MealDetail>) item)
+                );
+
+    }
+
+    @Override
+    public void insertPlan(MealDetail mealDetail) {
+        Observable.create( item->
+                db.getMealDao().insert(mealDetail)
+        ).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe();
+    }
+
 
     public static MealLocalDataSourceimpl getInstance(Context context){
         if(instance==null)

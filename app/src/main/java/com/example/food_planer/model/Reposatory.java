@@ -22,19 +22,21 @@ public class Reposatory {
     FoodRemoteSourceImpl foodRemoteSource;
     MealLocalDataSource mealLocalDataSource;
 
-    private Reposatory(FoodRemoteSourceImpl foodRemoteSource ,MealLocalDataSource mealLocalDataSource)
+    PlanMealLocalDataSourceimpl planMeal;
+
+    private Reposatory(FoodRemoteSourceImpl foodRemoteSource ,MealLocalDataSource mealLocalDataSource , PlanMealLocalDataSourceimpl planMeal)
     {
 
         this.foodRemoteSource = foodRemoteSource;
-
+        this.planMeal = planMeal;
         this.mealLocalDataSource = mealLocalDataSource;
     }
 
-    static public Reposatory getInstance(FoodRemoteSourceImpl foodRemoteSource , MealLocalDataSource mealLocalDataSource)
+    static public Reposatory getInstance(FoodRemoteSourceImpl foodRemoteSource , MealLocalDataSource mealLocalDataSource , PlanMealLocalDataSourceimpl planMeal)
     {
         if(instance==null)
         {
-            instance = new Reposatory(foodRemoteSource,mealLocalDataSource);
+            instance = new Reposatory(foodRemoteSource,mealLocalDataSource , planMeal);
         }
         return instance;
     }
@@ -99,4 +101,13 @@ public class Reposatory {
         mealLocalDataSource.getMeal(strMeal ,dataBaseDelegate);
     }
 
+    public void  addToPlan(WeekMealDetail weekMealDetail){planMeal.insertMeal(weekMealDetail);}
+
+    public void getWeekMeals(int day , int month , int year , WeekMealsDelegate weekMealsDelegate){
+        planMeal.getDayMeal(day , month , year , weekMealsDelegate);
+    }
+
+    public void deletePlanMeal(WeekMealDetail weekMealDetail){
+        planMeal.deleteMeal(weekMealDetail);
+    }
 }

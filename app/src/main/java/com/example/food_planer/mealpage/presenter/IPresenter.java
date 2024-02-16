@@ -1,6 +1,7 @@
 package com.example.food_planer.mealpage.presenter;
 
 import com.example.food_planer.model.MealDetail;
+import com.example.food_planer.model.WeekMealDetail;
 
 public interface IPresenter {
 
@@ -8,4 +9,6 @@ public interface IPresenter {
 
     public void getLocalMealData(String strMeal);
     public void addToFavourate(MealDetail mealDetail);
+
+    public void addToPlan(WeekMealDetail weekMealDetail);
 }

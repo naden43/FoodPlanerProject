@@ -23,6 +23,7 @@ import com.example.food_planer.model.Country;
 import com.example.food_planer.model.Ingredien;
 import com.example.food_planer.model.Meal;
 import com.example.food_planer.model.MealLocalDataSourceimpl;
+import com.example.food_planer.model.PlanMealLocalDataSourceimpl;
 import com.example.food_planer.model.Reposatory;
 import com.example.food_planer.model.Meals;
 import com.example.food_planer.network.FoodRemoteSourceImpl;
@@ -114,7 +115,7 @@ public class CountriesMealFragment extends Fragment implements ICountryFragment 
         });
         String strCountry = CountriesMealFragmentArgs.fromBundle(getArguments()).getStrCountry();
 
-        presenter = new Presenter(Reposatory.getInstance(FoodRemoteSourceImpl.getInstance(), MealLocalDataSourceimpl.getInstance(getContext())),this);
+        presenter = new Presenter(Reposatory.getInstance(FoodRemoteSourceImpl.getInstance(), MealLocalDataSourceimpl.getInstance(getContext()), PlanMealLocalDataSourceimpl.getInstance(getContext())),this);
         presenter.getMealsByCountry(strCountry);
     }
 
