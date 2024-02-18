@@ -11,4 +11,6 @@ public interface IPresenter {
     public void addToFavourate(MealDetail mealDetail);
 
     public void addToPlan(WeekMealDetail weekMealDetail);
+
+    public void getSpecificPlanMeal(String strMeal , int day , int month , int year );
 }

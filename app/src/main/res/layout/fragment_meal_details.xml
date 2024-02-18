@@ -9,7 +9,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingBottom="100dp"
+        android:paddingBottom="40dp"
         tools:layout_editor_absoluteX="-77dp"
         tools:layout_editor_absoluteY="16dp">
 
@@ -23,7 +23,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="@string/Video"
+                android:textColor="@color/main_color"
                 android:textSize="20sp"
+                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="@+id/textView23"
                 app:layout_constraintTop_toBottomOf="@+id/instructionsText" />
 
@@ -43,7 +45,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="@string/instructions"
+                android:textColor="@color/main_color"
                 android:textSize="20sp"
+                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="@+id/ingredientsRecycularView"
                 app:layout_constraintTop_toBottomOf="@+id/ingredientsRecycularView" />
 
@@ -52,9 +56,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:layout_marginEnd="34dp"
-                android:layout_marginRight="34dp"
-                android:paddingEnd="100dp"
+                android:paddingEnd="30dp"
                 app:layout_constraintStart_toStartOf="@+id/textView22"
                 app:layout_constraintTop_toBottomOf="@+id/textView22" />
 
@@ -64,7 +66,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
                 android:text="@string/Ingredients"
+                android:textColor="@color/main_color"
                 android:textSize="20sp"
+                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="@+id/cardView"
                 app:layout_constraintTop_toBottomOf="@+id/cardView" />
 
@@ -74,11 +78,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
                 android:text="@string/FoodName"
+                android:textColor="@color/main_color"
                 android:textSize="24sp"
-                app:layout_constraintEnd_toStartOf="@+id/addToPlan"
-                app:layout_constraintHorizontal_bias="0.0"
+                android:textStyle="bold"
                 app:layout_constraintStart_toEndOf="@+id/backBtn"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -120,24 +123,26 @@
                     android:layout_marginBottom="15dp"
                     android:backgroundTint="@color/main_color"
                     android:clickable="true"
-
+                    android:tintMode="@color/white"
                     android:src="@drawable/baseline_favorite_border_24" />
-            </androidx.cardview.widget.CardView>
 
-            <ImageView
-                android:id="@+id/addToPlan"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="24dp"
-                android:src="@drawable/add"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/addToPlan"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:src="@drawable/add"
+                    android:layout_gravity="bottom|end"
+                    android:layout_marginEnd="90dp"
+                    android:tintMode="@color/white"
+                    android:backgroundTint="@color/main_color"
+                    android:layout_marginBottom="15dp"/>
+            </androidx.cardview.widget.CardView>
 
             <WebView
                 android:id="@+id/video"
-                android:layout_width="300dp"
-                android:layout_height="300dp"
+                android:layout_width="350dp"
+                android:layout_height="350dp"
                 android:layout_marginTop="8dp"
                 app:layout_constraintStart_toStartOf="@+id/textView25"
                 app:layout_constraintTop_toBottomOf="@+id/textView25" />

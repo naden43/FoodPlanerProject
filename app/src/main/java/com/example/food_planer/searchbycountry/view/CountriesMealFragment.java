@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.food_planer.R;
+import com.example.food_planer.dpfirestore.FireStoreRemoteDataSourceimpl;
 import com.example.food_planer.model.Category;
 import com.example.food_planer.model.Country;
 import com.example.food_planer.model.Ingredien;
@@ -115,7 +116,7 @@ public class CountriesMealFragment extends Fragment implements ICountryFragment 
         });
         String strCountry = CountriesMealFragmentArgs.fromBundle(getArguments()).getStrCountry();
 
-        presenter = new Presenter(Reposatory.getInstance(FoodRemoteSourceImpl.getInstance(), MealLocalDataSourceimpl.getInstance(getContext()), PlanMealLocalDataSourceimpl.getInstance(getContext())),this);
+        presenter = new Presenter(Reposatory.getInstance(FoodRemoteSourceImpl.getInstance(), MealLocalDataSourceimpl.getInstance(getContext()), PlanMealLocalDataSourceimpl.getInstance(getContext()), FireStoreRemoteDataSourceimpl.getInstance()),this);
         presenter.getMealsByCountry(strCountry);
     }
 

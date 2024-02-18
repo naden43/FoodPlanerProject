@@ -1,6 +1,7 @@
 package com.example.food_planer.model;
 
 import com.example.food_planer.network.FireBaseAuth;
+import com.example.food_planer.network.GoogleCallBack;
 import com.example.food_planer.network.NetworkCallback;
 
 public class LoginAndRegisterReposatory {
@@ -23,8 +24,8 @@ public class LoginAndRegisterReposatory {
        return instance;
    }
 
-   public void addUser(String email , String password){
-       rememberFile.addCredintialsTOfile(email , password);
+   public void addUser(String email , String password , String userId){
+       rememberFile.addCredintialsTOfile(email , password , userId);
    }
 
    public void makeAddCall(String email , String password , boolean remember,NetworkCallback networkCallback){
@@ -37,5 +38,24 @@ public class LoginAndRegisterReposatory {
 
    public void userSignIn(String email , String password , Boolean remember , NetworkCallback networkCallback){
        auth.makeSignInCall(email, password, remember, networkCallback );
+   }
+
+   public void sigInByGoogle(NetworkCallback networkCallback , GoogleCallBack googleCallBack)
+   {
+       auth.siginByGoogle(networkCallback);
+   }
+
+   public void intializeLauncher(GoogleCallBack googleCallBack){
+       auth.intializeLauncher(googleCallBack);
+   }
+
+   public String getUserId()
+   {
+       return rememberFile.getUserId();
+   }
+
+   public void deleteUser()
+   {
+       rememberFile.deleteUser();
    }
 }

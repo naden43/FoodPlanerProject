@@ -1,10 +1,11 @@
 package com.example.food_planer.register.presenter;
 
 import com.example.food_planer.model.LoginAndRegisterReposatory;
+import com.example.food_planer.network.GoogleCallBack;
 import com.example.food_planer.network.NetworkCallback;
 import com.example.food_planer.register.view.IRegisterActivity;
 
-public class Presenter implements IPresenter , NetworkCallback {
+public class Presenter implements IPresenter , NetworkCallback , GoogleCallBack {
 
     LoginAndRegisterReposatory repo ;
 
@@ -19,8 +20,17 @@ public class Presenter implements IPresenter , NetworkCallback {
     }
 
 
+
+
     @Override
-    public void successCall(boolean remember) {
+    public void successSignIn(String email, String userId) {
+        view.showSuccess();
+        repo.addUser(email , "" , userId);
+    }
+
+    @Override
+    public void successCall(boolean remember, String userId) {
+
         view.showSuccess();
     }
 
@@ -51,6 +61,17 @@ public class Presenter implements IPresenter , NetworkCallback {
 
     @Override
     public void addToSharedPrefrence(String email, String password) {
-        repo.addUser(email , password);
+
+    }
+
+
+    @Override
+    public void intializeLauncher() {
+        repo.intializeLauncher(this);
+    }
+
+    @Override
+    public void signInByGoogle() {
+        repo.sigInByGoogle(this , this);
     }
 }

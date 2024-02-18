@@ -48,7 +48,11 @@
         android:id="@+id/weekMeals"
         android:name="com.example.food_planer.weekmeals.view.WeekMeals"
         android:label="fragment_week_meals"
-        tools:layout="@layout/fragment_week_meals" />
+        tools:layout="@layout/fragment_week_meals" >
+        <action
+            android:id="@+id/action_weekMeals_to_mealDetails"
+            app:destination="@id/mealDetails" />
+    </fragment>
     <fragment
         android:id="@+id/categoryMealsFragment"
         android:name="com.example.food_planer.searchbycategory.view.CategoryMealsFragment"
@@ -102,6 +106,18 @@
             android:defaultValue="null" />
         <argument
             android:name="id"
+            app:argType="integer"
+            android:defaultValue="0" />
+        <argument
+            android:name="day"
+            app:argType="integer"
+            android:defaultValue="0" />
+        <argument
+            android:name="month"
+            app:argType="integer"
+            android:defaultValue="0" />
+        <argument
+            android:name="year"
             app:argType="integer"
             android:defaultValue="0" />
     </fragment>

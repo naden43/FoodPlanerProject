@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.food_planer.R;
+import com.example.food_planer.dpfirestore.FireStoreRemoteDataSourceimpl;
 import com.example.food_planer.model.Category;
 import com.example.food_planer.model.Country;
 import com.example.food_planer.model.Ingredien;
@@ -75,7 +76,7 @@ public class CategoryMealsFragment extends Fragment implements ICategoryFragment
         String strCategory = CategoryMealsFragmentArgs.fromBundle(getArguments()).getCategoryName();
 
 
-        presenter = new Presenter(Reposatory.getInstance(FoodRemoteSourceImpl.getInstance(), MealLocalDataSourceimpl.getInstance(getContext()), PlanMealLocalDataSourceimpl.getInstance(getContext())),this);
+        presenter = new Presenter(Reposatory.getInstance(FoodRemoteSourceImpl.getInstance(), MealLocalDataSourceimpl.getInstance(getContext()), PlanMealLocalDataSourceimpl.getInstance(getContext()), FireStoreRemoteDataSourceimpl.getInstance()),this);
         presenter.getMealsByCategory(strCategory);
 
         ImageView back = view.findViewById(R.id.backBtn);

@@ -6,10 +6,11 @@ import com.example.food_planer.model.MealDetail;
 import com.example.food_planer.model.Reposatory;
 import com.example.food_planer.model.WeekMealDetail;
 import com.example.food_planer.network.MealDetailsCallBack;
+import com.example.food_planer.weekmeals.view.WeekMealDetailDelegate;
 
 import java.util.ArrayList;
 
-public class Presenter implements IPresenter , MealDetailsCallBack , DataBaseDelegate {
+public class Presenter implements IPresenter , MealDetailsCallBack , DataBaseDelegate  , WeekMealDetailDelegate {
 
     Reposatory repo;
     IMealDetails view ;
@@ -40,6 +41,11 @@ public class Presenter implements IPresenter , MealDetailsCallBack , DataBaseDel
     }
 
     @Override
+    public void getSpecificPlanMeal(String strMeal, int day, int month, int year) {
+        repo.getSpecificMeal(strMeal , day , month ,year , this);
+    }
+
+    @Override
     public void onSuccess(MealDetail meal) {
         view.showMealData(meal);
     }
@@ -52,5 +58,10 @@ public class Presenter implements IPresenter , MealDetailsCallBack , DataBaseDel
     @Override
     public void onFailure(String errorMsg) {
         view.showErrorMsg(errorMsg);
+    }
+
+    @Override
+    public void sendMealDetail(WeekMealDetail weekMealDetail) {
+        view.showMealData(weekMealDetail.getMealDetail());
     }
 }

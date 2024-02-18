@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -14,9 +15,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CalendarView;
 import android.widget.DatePicker;
 
 import com.example.food_planer.R;
+import com.example.food_planer.dpfirestore.FireStoreRemoteDataSourceimpl;
 import com.example.food_planer.model.MealDetail;
 import com.example.food_planer.model.MealLocalDataSourceimpl;
 import com.example.food_planer.model.PlanMealLocalDataSourceimpl;
@@ -24,16 +27,17 @@ import com.example.food_planer.model.Reposatory;
 import com.example.food_planer.model.WeekMealDetail;
 import com.example.food_planer.model.WeekMealsDelegate;
 import com.example.food_planer.network.FoodRemoteSourceImpl;
+import com.example.food_planer.search.view.CategoryAdapter;
 import com.example.food_planer.weekmeals.presenter.Presenter;
 
 
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class WeekMeals extends Fragment implements IWeekMeals {
+public class WeekMeals extends Fragment implements IWeekMeals , OnDeleteClickListener {
 
 
-    WeekMealAdapter adapter;
+    MealAdapter adapter;
     Presenter presenter;
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -52,25 +56,22 @@ public class WeekMeals extends Fragment implements IWeekMeals {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        RecyclerView recyclerView = view.findViewById(R.id.mealList);
+        RecyclerView recyclerView = view.findViewById(R.id.savedMeals);
+        CalendarView calendarView = view.findViewById(R.id.calendarView);
 
-        adapter = new WeekMealAdapter(new ArrayList<>(), getContext());
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-        layoutManager.setOrientation(RecyclerView.HORIZONTAL);
+        adapter = new MealAdapter(new ArrayList<>(),getContext() , this);
+        GridLayoutManager layoutManager = new GridLayoutManager(getContext(),2 ,RecyclerView.HORIZONTAL ,false);
+        layoutManager.setOrientation(RecyclerView.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
 
-        Button showAnotherDay = view.findViewById(R.id.showAnotherDay);
-        showAnotherDay.setOnClickListener(new View.OnClickListener() {
+        presenter = new Presenter(Reposatory.getInstance(FoodRemoteSourceImpl.getInstance(),MealLocalDataSourceimpl.getInstance(getContext()),PlanMealLocalDataSourceimpl.getInstance(getContext()), FireStoreRemoteDataSourceimpl.getInstance()),this);
+        calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
-            public void onClick(View v) {
-                showDataPicker();
+            public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
+                presenter.getWeekMeal(dayOfMonth ,month ,year);
             }
         });
-
-        showDataPicker();
-
-
 
 
     }
@@ -86,13 +87,14 @@ public class WeekMeals extends Fragment implements IWeekMeals {
         int mounth = calendar.get(Calendar.MONTH);
         int day = calendar.get(Calendar.DAY_OF_MONTH);
 
-        presenter = new Presenter(Reposatory.getInstance(FoodRemoteSourceImpl.getInstance(), MealLocalDataSourceimpl.getInstance(getContext()), PlanMealLocalDataSourceimpl.getInstance(getContext())),this);
+        presenter = new Presenter(Reposatory.getInstance(FoodRemoteSourceImpl.getInstance(), MealLocalDataSourceimpl.getInstance(getContext()), PlanMealLocalDataSourceimpl.getInstance(getContext()), FireStoreRemoteDataSourceimpl.getInstance()),this);
 
         DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(),
                 new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
 
+                        presenter.stopSubscribe();
                         presenter.getWeekMeal(dayOfMonth , month  , year);
 
                     }
@@ -102,5 +104,10 @@ public class WeekMeals extends Fragment implements IWeekMeals {
         calendar.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY);
         datePickerDialog.getDatePicker().setMaxDate(calendar.getTimeInMillis());
         datePickerDialog.show();
+    }
+
+    @Override
+    public void delete(WeekMealDetail weekMealDetail) {
+        presenter.deletePlanMeal(weekMealDetail);
     }
 }

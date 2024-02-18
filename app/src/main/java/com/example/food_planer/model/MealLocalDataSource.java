@@ -15,7 +15,7 @@ public interface MealLocalDataSource {
 
     void getMeal(String strMeal, DataBaseDelegate dataBaseDelegate);
 
-    void getWeekMeal(int day , int month , int year , DataBaseDelegate dataBaseDelegate);
+    //void getWeekMeal(int day , int month , int year , DataBaseDelegate dataBaseDelegate);
 
     void insertPlan(MealDetail mealDetail);
 

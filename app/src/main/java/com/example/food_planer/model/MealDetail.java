@@ -21,17 +21,6 @@ public class MealDetail {
         @PrimaryKey
         @NonNull
         public String strMeal;
-        @ColumnInfo(name = "image")
-        public Bitmap image;
-
-    @ColumnInfo(name = "Day")
-    public int Day;
-
-    @ColumnInfo(name = "month")
-    public int month;
-
-    @ColumnInfo(name = "year")
-    public int year;
         @Ignore
         public Object strDrinkAlternate;
 

@@ -1,6 +1,7 @@
 package com.example.food_planer.home.view;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkCapabilities;
@@ -11,6 +12,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import android.util.Pair;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,20 +23,41 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ScrollView;
 import android.widget.Toast;
 
 
+import com.example.food_planer.NavigationActivity;
 import com.example.food_planer.R;
+import com.example.food_planer.dpfirestore.FireStoreRemoteDataSourceimpl;
 import com.example.food_planer.home.presenter.Presenter;
+import com.example.food_planer.login.view.LoginActivity;
+import com.example.food_planer.model.LoginAndRegisterReposatory;
 import com.example.food_planer.model.Meal;
+import com.example.food_planer.model.MealDetail;
 import com.example.food_planer.model.MealLocalDataSourceimpl;
 import com.example.food_planer.model.PlanMealLocalDataSourceimpl;
 import com.example.food_planer.model.Reposatory;
+import com.example.food_planer.model.UserLocalDataSourceimpl;
+import com.example.food_planer.model.WeekMealDetail;
+import com.example.food_planer.network.FireBaseAuth;
 import com.example.food_planer.network.FoodRemoteSourceImpl;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 
 public class Home extends Fragment implements Ihome {
@@ -65,6 +88,9 @@ public class Home extends Fragment implements Ihome {
         ConstraintLayout networkLayout = view.findViewById(R.id.networkMessage);
         ScrollView page = view.findViewById(R.id.homePage);
 
+        Button logoutBtn  = view.findViewById(R.id.siginout);
+
+
         NetworkRequest networkRequest = new NetworkRequest.Builder()
                 .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
                 .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
@@ -93,7 +119,6 @@ public class Home extends Fragment implements Ihome {
                 mHandler.post(new Runnable() {
                     @Override
                     public void run() {
-
                         Log.i(TAG, "run: " + "here lost");
                         page.setVisibility(View.GONE);
                         networkLayout.setVisibility(View.VISIBLE);
@@ -124,23 +149,26 @@ public class Home extends Fragment implements Ihome {
         recyclerView1.setLayoutManager(layoutManagerRandom);
         recyclerView1.setAdapter(myAdapterRandom);
 
-        Reposatory repo = Reposatory.getInstance(FoodRemoteSourceImpl.getInstance() , MealLocalDataSourceimpl.getInstance(getContext()), PlanMealLocalDataSourceimpl.getInstance(getContext()));
-        presenter = new Presenter(repo, Home.this);
+        Reposatory repo = Reposatory.getInstance(FoodRemoteSourceImpl.getInstance() , MealLocalDataSourceimpl.getInstance(getContext()), PlanMealLocalDataSourceimpl.getInstance(getContext()), FireStoreRemoteDataSourceimpl.getInstance());
+        presenter = new Presenter(repo, Home.this , LoginAndRegisterReposatory.getInstance(UserLocalDataSourceimpl.getInstance(getContext()), FireBaseAuth.getInstance(getActivity())));
 
         Log.i(TAG, "onViewCreated: " + "before");
-        /*if(activeNetwork!=null && activeNetwork.isConnectedOrConnecting()) {
 
-            Log.i(TAG, "onViewCreated: " +"visiable");
-            page.setVisibility(View.VISIBLE);
-            networkLayout.setVisibility(View.GONE);
-
-        }
-        else {
-            Log.i(TAG, "onViewCreated: " + "here");
-            page.setVisibility(View.GONE);
-            networkLayout.setVisibility(View.VISIBLE);
-
-        }*/
+        logoutBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String userId = presenter.getUserId();
+                presenter.saveFavouriteMeals(userId);
+                presenter.savePlansMeals(userId);
+                presenter.deleteUser();
+                startActivity(new Intent(getContext() , LoginActivity.class));
+                try {
+                    getActivity().finish();
+                } catch (Throwable e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
 
     }
 

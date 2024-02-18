@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.example.food_planer.R;
+import com.example.food_planer.dpfirestore.FireStoreRemoteDataSourceimpl;
 import com.example.food_planer.favourate.presenter.Presenter;
 import com.example.food_planer.login.view.LoginActivity;
 import com.example.food_planer.model.LoginAndRegisterReposatory;
@@ -75,13 +76,8 @@ public class Favourate extends Fragment implements IFavourate , deleteSetOnClick
         recyclerView.setLayoutManager(ingredentslayoutManager);
         recyclerView.setAdapter(favourateAdapter);
 
-        SharedPreferences sharedPreferences = getContext().getSharedPreferences(LoginActivity.FILENAME , Context.MODE_PRIVATE);
-        presenter = new Presenter(LoginAndRegisterReposatory.getInstance(UserLocalDataSourceimpl.getInstance(sharedPreferences), FireBaseAuth.getInstance(null)), Reposatory.getInstance(FoodRemoteSourceImpl.getInstance(), MealLocalDataSourceimpl.getInstance(getContext()), PlanMealLocalDataSourceimpl.getInstance(getContext())),this);
-
+        presenter = new Presenter(LoginAndRegisterReposatory.getInstance(UserLocalDataSourceimpl.getInstance(getContext()), FireBaseAuth.getInstance(getActivity())), Reposatory.getInstance(FoodRemoteSourceImpl.getInstance(), MealLocalDataSourceimpl.getInstance(getContext()), PlanMealLocalDataSourceimpl.getInstance(getContext()), FireStoreRemoteDataSourceimpl.getInstance()),this);
         presenter.getUserMode();
-
-
-
 
     }
 

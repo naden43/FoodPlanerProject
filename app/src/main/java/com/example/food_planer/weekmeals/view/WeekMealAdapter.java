@@ -99,7 +99,6 @@ public class WeekMealAdapter extends RecyclerView.Adapter<WeekMealAdapter.ViewHo
                 .into( holder.img);
 
 
-        Log.i("TAG", "onBindViewHolder: " + meals.get(position).mealDetail.image.getRowBytes());
         IngredientAdapter myAdapter = new IngredientAdapter(meals.get(position).getMealDetail().ingredientsMeasure(meals.get(position).getMealDetail()), context);
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
         layoutManager.setOrientation(RecyclerView.HORIZONTAL);

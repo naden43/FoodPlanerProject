@@ -1,14 +1,18 @@
 package com.example.food_planer.model;
 
+import com.example.food_planer.dpfirestore.FireStoreRemoteDataSourceimpl;
 import com.example.food_planer.network.CategoriesNetworkCallBack;
 import com.example.food_planer.network.CountriesNetworkCallBack;
+import com.example.food_planer.network.FireBaseResponse;
 import com.example.food_planer.network.FoodRemoteSourceImpl;
 import com.example.food_planer.network.IngredientNetworkCallBack;
 import com.example.food_planer.network.InspirationMealNetworkCallBack;
 import com.example.food_planer.network.MealCallBack;
 import com.example.food_planer.network.MealDetailsCallBack;
 import com.example.food_planer.network.SearchMealsCallBack;
+import com.example.food_planer.weekmeals.view.WeekMealDetailDelegate;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.rxjava3.core.Flowable;
@@ -24,19 +28,23 @@ public class Reposatory {
 
     PlanMealLocalDataSourceimpl planMeal;
 
-    private Reposatory(FoodRemoteSourceImpl foodRemoteSource ,MealLocalDataSource mealLocalDataSource , PlanMealLocalDataSourceimpl planMeal)
+    FireStoreRemoteDataSourceimpl fireStoreDb;
+
+    private Reposatory(FoodRemoteSourceImpl foodRemoteSource , MealLocalDataSource mealLocalDataSource , PlanMealLocalDataSourceimpl planMeal , FireStoreRemoteDataSourceimpl fireStoreDb)
     {
 
         this.foodRemoteSource = foodRemoteSource;
         this.planMeal = planMeal;
         this.mealLocalDataSource = mealLocalDataSource;
+
+        this.fireStoreDb = fireStoreDb;
     }
 
-    static public Reposatory getInstance(FoodRemoteSourceImpl foodRemoteSource , MealLocalDataSource mealLocalDataSource , PlanMealLocalDataSourceimpl planMeal)
+    static public Reposatory getInstance(FoodRemoteSourceImpl foodRemoteSource , MealLocalDataSource mealLocalDataSource , PlanMealLocalDataSourceimpl planMeal ,FireStoreRemoteDataSourceimpl fireStoreDb)
     {
         if(instance==null)
         {
-            instance = new Reposatory(foodRemoteSource,mealLocalDataSource , planMeal);
+            instance = new Reposatory(foodRemoteSource,mealLocalDataSource , planMeal,fireStoreDb);
         }
         return instance;
     }
@@ -110,4 +118,36 @@ public class Reposatory {
     public void deletePlanMeal(WeekMealDetail weekMealDetail){
         planMeal.deleteMeal(weekMealDetail);
     }
+
+    public void stopSubscribe()
+    {
+        planMeal.stopSubscribe();
+    }
+
+    public void getSpecificMeal(String strMeal , int day , int month , int year , WeekMealDetailDelegate weekMealDetailDelegate){
+        planMeal.getSpecificMeal(strMeal , day , month , year , weekMealDetailDelegate);
+    }
+
+    public Flowable<List<WeekMealDetail>> getAllWeekPlans()
+    {
+       return planMeal.getAllWeekPlans();
+    }
+
+
+
+    public void saveFavouriteMeals(ArrayList<MealDetail> favourite , String userId)
+    {
+        fireStoreDb.saveFavouriteMeals(favourite , userId);
+    }
+
+    public void savePlansMeal(ArrayList<WeekMealDetail> plans , String userId)
+    {
+        fireStoreDb.savePlanMeals(plans , userId);
+    }
+
+    public void getSavedMeals(String userId , FireBaseResponse fireBaseResponse)
+    {
+        fireStoreDb.getSavedMeals(userId , fireBaseResponse);
+    }
+
 }

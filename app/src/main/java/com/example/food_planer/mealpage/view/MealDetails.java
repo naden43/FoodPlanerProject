@@ -7,6 +7,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.util.Pair;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -29,6 +30,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.example.food_planer.R;
+import com.example.food_planer.dpfirestore.FireStoreRemoteDataSourceimpl;
 import com.example.food_planer.home.view.HomeDirections;
 import com.example.food_planer.mealpage.presenter.Presenter;
 import com.example.food_planer.model.MealDetail;
@@ -37,6 +39,7 @@ import com.example.food_planer.model.PlanMealLocalDataSourceimpl;
 import com.example.food_planer.model.Reposatory;
 import com.example.food_planer.model.WeekMealDetail;
 import com.example.food_planer.network.FoodRemoteSourceImpl;
+import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.ByteArrayOutputStream;
@@ -56,7 +59,7 @@ public class MealDetails extends Fragment implements IMealDetails {
     WebView videoView;
 
     boolean firstTime;
-    ImageView savedBtn;
+    FloatingActionButton savedBtn;
 
     ImageView back;
     FloatingActionButton favourateBtn;
@@ -122,19 +125,31 @@ public class MealDetails extends Fragment implements IMealDetails {
                         }
 
                 ,year , mounth , day);
-                datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis()-100);
+                //datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis()-100);
                 calendar.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY);
-                datePickerDialog.getDatePicker().setMaxDate(calendar.getTimeInMillis());
+                //datePickerDialog.getDatePicker().setMaxDate(calendar.getTimeInMillis());
                 datePickerDialog.show();
+
+
             }
         });
 
-        presenter = new Presenter(Reposatory.getInstance(FoodRemoteSourceImpl.getInstance(), MealLocalDataSourceimpl.getInstance(getContext()), PlanMealLocalDataSourceimpl.getInstance(getContext())), this);
+        presenter = new Presenter(Reposatory.getInstance(FoodRemoteSourceImpl.getInstance(), MealLocalDataSourceimpl.getInstance(getContext()), PlanMealLocalDataSourceimpl.getInstance(getContext()), FireStoreRemoteDataSourceimpl.getInstance()), this);
 
         if(id==1) {
              presenter.getLocalMealData(strMeal);
              savedBtn.setVisibility(View.GONE);
              favourateBtn.setVisibility(View.GONE);
+        }
+        else if(id==2)
+        {
+            int mealDay , mealMonth , mealYear;
+            mealMonth = MealDetailsArgs.fromBundle(getArguments()).getMonth();
+            mealDay = MealDetailsArgs.fromBundle(getArguments()).getDay();
+            mealYear = MealDetailsArgs.fromBundle(getArguments()).getYear();
+            presenter.getSpecificPlanMeal(strMeal, mealDay , mealMonth,mealYear);
+            savedBtn.setVisibility(View.GONE);
+            favourateBtn.setVisibility(View.GONE);
         }
         else {
             presenter.getMealData(strMeal);
@@ -154,8 +169,7 @@ public class MealDetails extends Fragment implements IMealDetails {
                     @Override
                     public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
                         Log.i("TAG", "onResourceReady: ");
-                        mealDetails.image = resource;
-                        meal.image = resource;
+
                         mealImage.setImageBitmap(resource);
                     }
                     @Override
@@ -212,5 +226,10 @@ public class MealDetails extends Fragment implements IMealDetails {
             videoId = matcher.group();
         }
         return videoId;
+    }
+
+    public void show()
+    {
+
     }
 }

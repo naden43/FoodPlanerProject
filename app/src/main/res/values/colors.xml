@@ -5,4 +5,5 @@
     <color name="linkColor">#0000FF</color>
     <color name="main_color">#005a9c</color>
     <color name="maincolorD">#90000000</color>
+    <color name="shade">#C8C8C8</color>
 </resources>

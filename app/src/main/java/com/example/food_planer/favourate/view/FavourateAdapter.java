@@ -91,7 +91,12 @@ public class FavourateAdapter extends  RecyclerView.Adapter<FavourateAdapter.Vie
 
         holder.description.setText(meals.get(position).getStrMeal());
 
-        holder.img.setImageBitmap(meals.get(position).image);
+
+        Glide.with(context)
+                .asBitmap()
+                .load(meals.get(position).getStrMealThumb())
+                .apply(new RequestOptions().override(200, 200))
+                .into(holder.img);
         holder.delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

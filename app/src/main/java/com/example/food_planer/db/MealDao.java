@@ -30,7 +30,6 @@ public interface MealDao {
     @Delete
     public void delete(MealDetail mealDetail);
 
-    @Query("SELECT * FROM favourate_meals WHERE Day = :day and month = :month and year = :year")
-    public List<MealDetail> getMeal(int day , int month , int year);
+
 
 }

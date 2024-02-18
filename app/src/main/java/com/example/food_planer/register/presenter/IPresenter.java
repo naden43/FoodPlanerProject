@@ -5,5 +5,9 @@ public interface IPresenter{
 
     public void addToSharedPrefrence(String email , String password);
 
+    public void intializeLauncher();
+
+    public void signInByGoogle();
+
 
 }

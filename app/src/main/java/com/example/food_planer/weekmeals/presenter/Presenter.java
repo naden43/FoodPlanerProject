@@ -24,7 +24,18 @@ public class Presenter implements IPresenter ,WeekMealsDelegate{
     }
 
     @Override
+    public void deletePlanMeal(WeekMealDetail weekMealDetail) {
+        repo.deletePlanMeal(weekMealDetail);
+    }
+
+    @Override
+    public void stopSubscribe() {
+        repo.stopSubscribe();
+    }
+
+    @Override
     public void onSuccess(ArrayList<WeekMealDetail> weekMealDetails) {
         view.showMeals(weekMealDetails);
     }
+
 }

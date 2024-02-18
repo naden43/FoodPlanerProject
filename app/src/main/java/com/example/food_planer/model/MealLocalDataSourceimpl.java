@@ -71,7 +71,7 @@ public class MealLocalDataSourceimpl implements MealLocalDataSource{
 
     }
 
-    @Override
+    /*@Override
     public void getWeekMeal(int day, int month, int year , DataBaseDelegate dataBaseDelegate) {
         Observable.create(
                         item -> item.onNext(db.getMealDao().getMeal(day,month, year))
@@ -81,7 +81,7 @@ public class MealLocalDataSourceimpl implements MealLocalDataSource{
                         item -> dataBaseDelegate.onSuccess((ArrayList<MealDetail>) item)
                 );
 
-    }
+    }*/
 
     @Override
     public void insertPlan(MealDetail mealDetail) {

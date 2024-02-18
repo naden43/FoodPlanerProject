@@ -27,6 +27,7 @@ import android.widget.ScrollView;
 import android.widget.Toast;
 
 import com.example.food_planer.R;
+import com.example.food_planer.dpfirestore.FireStoreRemoteDataSourceimpl;
 import com.example.food_planer.model.Category;
 import com.example.food_planer.model.Countries;
 import com.example.food_planer.model.Country;
@@ -137,7 +138,7 @@ public class Search extends Fragment implements Isearch {
         searchList.setLayoutManager(layoutManager);
         searchList.setAdapter(categoryAdapter);
 
-        presenter = new Presenter(Reposatory.getInstance(FoodRemoteSourceImpl.getInstance(), MealLocalDataSourceimpl.getInstance(getContext()), PlanMealLocalDataSourceimpl.getInstance(getContext())),this);
+        presenter = new Presenter(Reposatory.getInstance(FoodRemoteSourceImpl.getInstance(), MealLocalDataSourceimpl.getInstance(getContext()), PlanMealLocalDataSourceimpl.getInstance(getContext()), FireStoreRemoteDataSourceimpl.getInstance()),this);
         presenter.getAllCategories();
 
 

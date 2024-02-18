@@ -4,19 +4,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="55dp"
     tools:context=".searchbyingredents.view.ingredentsMealsFragment">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/ingredientsMeals"
+    <ScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:paddingBottom="55dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/back"
-        app:layout_constraintTop_toBottomOf="@+id/searchTxt" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/searchTxt"
+        android:paddingBottom="100dp">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/ingredientsMeals"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:paddingBottom="55dp" />
+    </ScrollView>
 
     <TextView
         android:id="@+id/textView8"
@@ -41,8 +49,8 @@
 
     <EditText
         android:id="@+id/searchTxt"
-        android:layout_width="300dp"
-        android:layout_height="50dp"
+        android:layout_width="350dp"
+        android:layout_height="55dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="16dp"
@@ -50,6 +58,7 @@
         android:ems="10"
         android:hint="@string/search_by_meal_name"
         android:inputType="text"
+        android:paddingStart="12dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/back" />

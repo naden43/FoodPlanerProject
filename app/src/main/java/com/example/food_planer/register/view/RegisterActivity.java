@@ -53,52 +53,14 @@ public class RegisterActivity extends AppCompatActivity implements IRegisterActi
 
     Presenter presenter ;
 
-
-    private final ActivityResultLauncher<Intent> launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
-        @Override
-        public void onActivityResult(ActivityResult o) {
-            if(o.getResultCode() == RESULT_OK)
-            {
-                Task<GoogleSignInAccount> accountTask = GoogleSignIn.getSignedInAccountFromIntent(o.getData());
-                try {
-
-                    GoogleSignInAccount signInAccount = accountTask.getResult(ApiException.class);
-                    AuthCredential authCredential = GoogleAuthProvider.getCredential(signInAccount.getIdToken() , null);
-                    auth.signInWithCredential(authCredential).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-                        @Override
-                        public void onSuccess(AuthResult authResult) {
-                            auth  = FirebaseAuth.getInstance();
-                            Toast.makeText(RegisterActivity.this, "SignIn Successful", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
-                            startActivity(intent);
-                            finish();
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-
-                            Toast.makeText(RegisterActivity.this, "SignInFail" + e.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    });
-
-                } catch (ApiException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    });
-
     TextView loginRedirect;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        auth = FirebaseAuth.getInstance();
 
-        SharedPreferences sharedPreferences = getSharedPreferences(LoginActivity.FILENAME , Context.MODE_PRIVATE);
-        presenter = new Presenter(LoginAndRegisterReposatory.getInstance(UserLocalDataSourceimpl.getInstance(sharedPreferences) , FireBaseAuth.getInstance(auth)), this);
-
+        presenter = new Presenter(LoginAndRegisterReposatory.getInstance(UserLocalDataSourceimpl.getInstance(this) , FireBaseAuth.getInstance(this)), this);
 
         emailTxt = findViewById(R.id.emailTxt);
         passwordTxt = findViewById(R.id.passwordTxt);
@@ -106,22 +68,14 @@ public class RegisterActivity extends AppCompatActivity implements IRegisterActi
         registerBtn = findViewById(R.id.btnRegister);
         loginRedirect = findViewById(R.id.registerNavigation);
         signInButton = findViewById(R.id.signUpButton);
-
+        //FirebaseApp.initializeApp(RegisterActivity.this);
 
 
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                GoogleSignInOptions signInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                        .requestIdToken(getString(R.string.client_id)).requestEmail().build();
-
-
-                client = GoogleSignIn.getClient(RegisterActivity.this , signInOptions);
-
-                FirebaseApp.initializeApp(RegisterActivity.this);
                 presenter.addToSharedPrefrence("admin" , "admin");
-                Intent intent = client.getSignInIntent();
-                launcher.launch(intent);
+                presenter.signInByGoogle();
             }
         });
         registerBtn.setOnClickListener(new View.OnClickListener() {
