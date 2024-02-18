@@ -43,4 +43,6 @@
     <string name="search_by_meal_name">Search By Meal Name</string>
     <string name="CategoryMeals">Category Meals</string>
     <string name="ShowAnotherDay">Show Another Day</string>
+    <string name="Check">Check your internet</string>
+    <string name="Register">Register</string>
 </resources>

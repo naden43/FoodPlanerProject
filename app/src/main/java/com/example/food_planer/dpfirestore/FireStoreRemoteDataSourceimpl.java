@@ -97,9 +97,6 @@ public class FireStoreRemoteDataSourceimpl implements FireStoreRemoteDataSource 
                         Type plansListType = new TypeToken<ArrayList<WeekMealDetail>>(){}.getType();
                         ArrayList<WeekMealDetail> planMeals = gson.fromJson(gPlans, plansListType);
 
-
-                        Log.i("TAG", "onsize: " + gPlans);
-                        Log.i("TAG", "onComplete: " + mealDetailList.get(0).strArea);
                         fireBaseResponse.sendData(planMeals , mealDetailList);
                     } else {
                         Log.d("TAG", "No such document");

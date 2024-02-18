@@ -8,12 +8,14 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
@@ -68,7 +70,7 @@ public class LoginActivity extends AppCompatActivity implements ILoginActivity {
 
 
         Reposatory repo = Reposatory.getInstance(FoodRemoteSourceImpl.getInstance(), MealLocalDataSourceimpl.getInstance(getApplicationContext()), PlanMealLocalDataSourceimpl.getInstance(getApplicationContext()), FireStoreRemoteDataSourceimpl.getInstance());
-        presenter = new Presenter(LoginAndRegisterReposatory.getInstance(UserLocalDataSourceimpl.getInstance(this) , FireBaseAuth.getInstance(this)), this , repo);
+        presenter = new Presenter(LoginAndRegisterReposatory.getInstance(UserLocalDataSourceimpl.getInstance(this) , FireBaseAuth.getInstance(this)), this , repo, this);
 
         presenter.intializeLauncher();
         presenter.checkSavedLogin();
@@ -87,6 +89,7 @@ public class LoginActivity extends AppCompatActivity implements ILoginActivity {
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 //presenter.addToSharedPrerefrence("admin" , "admin");
                 presenter.sigInByGoogle();
             }
@@ -95,9 +98,14 @@ public class LoginActivity extends AppCompatActivity implements ILoginActivity {
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String email = emailTxt.getText().toString().trim();
-                String password = passwordTxt.getText().toString().trim();
-                presenter.signIn(email , password , remember.isChecked());
+                if(presenter.checkConnectivity()) {
+                    String email = emailTxt.getText().toString().trim();
+                    String password = passwordTxt.getText().toString().trim();
+                    presenter.signIn(email, password, remember.isChecked());
+                }
+                else {
+                    showDialog();
+                }
             }
         });
 
@@ -112,8 +120,13 @@ public class LoginActivity extends AppCompatActivity implements ILoginActivity {
         skip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(LoginActivity.this , NavigationActivity.class));
-                finish();
+                if(presenter.checkConnectivity()){
+                    startActivity(new Intent(LoginActivity.this , NavigationActivity.class));
+                    finish();
+                }
+                else {
+                    showDialog();
+                }
             }
         });
 
@@ -146,5 +159,22 @@ public class LoginActivity extends AppCompatActivity implements ILoginActivity {
     public void goToHomePage() {
         startActivity(new Intent(this  , NavigationActivity.class));
         finish();
+    }
+
+    public void showDialog()
+    {
+        Dialog dialog  = new Dialog(this);
+        dialog.setContentView(R.layout.dialog2);
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT , ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.getWindow().setBackgroundDrawable(this.getDrawable(R.drawable.custom_dialog));
+        Button okBtn = dialog.findViewById(R.id.ok);
+        okBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
     }
 }

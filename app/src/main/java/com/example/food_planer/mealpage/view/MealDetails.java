@@ -1,6 +1,8 @@
 package com.example.food_planer.mealpage.view;
 
 import android.app.DatePickerDialog;
+import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -32,12 +34,16 @@ import com.bumptech.glide.request.transition.Transition;
 import com.example.food_planer.R;
 import com.example.food_planer.dpfirestore.FireStoreRemoteDataSourceimpl;
 import com.example.food_planer.home.view.HomeDirections;
+import com.example.food_planer.login.view.LoginActivity;
 import com.example.food_planer.mealpage.presenter.Presenter;
+import com.example.food_planer.model.LoginAndRegisterReposatory;
 import com.example.food_planer.model.MealDetail;
 import com.example.food_planer.model.MealLocalDataSourceimpl;
 import com.example.food_planer.model.PlanMealLocalDataSourceimpl;
 import com.example.food_planer.model.Reposatory;
+import com.example.food_planer.model.UserLocalDataSourceimpl;
 import com.example.food_planer.model.WeekMealDetail;
+import com.example.food_planer.network.FireBaseAuth;
 import com.example.food_planer.network.FoodRemoteSourceImpl;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -67,6 +73,8 @@ public class MealDetails extends Fragment implements IMealDetails {
     Presenter presenter;
 
     MealDetail meal;
+
+    Boolean status ;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -115,26 +123,31 @@ public class MealDetails extends Fragment implements IMealDetails {
             @Override
             public void onClick(View v) {
 
-                DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(),
-                        new DatePickerDialog.OnDateSetListener() {
-                            @Override
-                            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                                WeekMealDetail weekMealDetail = new WeekMealDetail(meal.strMeal,dayOfMonth , meal ,month ,year);
-                                presenter.addToPlan(weekMealDetail);
+                if(!status){
+                    showDialog();
+                }
+                else {
+                    DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(),
+                            new DatePickerDialog.OnDateSetListener() {
+                                @Override
+                                public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                                    WeekMealDetail weekMealDetail = new WeekMealDetail(meal.strMeal, dayOfMonth, meal, month, year);
+                                    presenter.addToPlan(weekMealDetail);
+                                }
                             }
-                        }
 
-                ,year , mounth , day);
-                //datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis()-100);
-                calendar.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY);
-                //datePickerDialog.getDatePicker().setMaxDate(calendar.getTimeInMillis());
-                datePickerDialog.show();
-
+                            , year, mounth, day);
+                    //datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis()-100);
+                    calendar.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY);
+                    //datePickerDialog.getDatePicker().setMaxDate(calendar.getTimeInMillis());
+                    datePickerDialog.show();
+                }
 
             }
         });
 
-        presenter = new Presenter(Reposatory.getInstance(FoodRemoteSourceImpl.getInstance(), MealLocalDataSourceimpl.getInstance(getContext()), PlanMealLocalDataSourceimpl.getInstance(getContext()), FireStoreRemoteDataSourceimpl.getInstance()), this);
+        LoginAndRegisterReposatory reposatory = LoginAndRegisterReposatory.getInstance(UserLocalDataSourceimpl.getInstance(getContext()), FireBaseAuth.getInstance(null));
+        presenter = new Presenter(Reposatory.getInstance(FoodRemoteSourceImpl.getInstance(), MealLocalDataSourceimpl.getInstance(getContext()), PlanMealLocalDataSourceimpl.getInstance(getContext()), FireStoreRemoteDataSourceimpl.getInstance()), this , reposatory);
 
         if(id==1) {
              presenter.getLocalMealData(strMeal);
@@ -154,6 +167,7 @@ public class MealDetails extends Fragment implements IMealDetails {
         else {
             presenter.getMealData(strMeal);
         }
+        status = presenter.getUserMode();
     }
 
 
@@ -205,7 +219,12 @@ public class MealDetails extends Fragment implements IMealDetails {
         favourateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                presenter.addToFavourate(mealDetails);
+                if(!status){
+                    showDialog();
+                }
+                else {
+                    presenter.addToFavourate(mealDetails);
+                }
             }
         });
 
@@ -228,8 +247,25 @@ public class MealDetails extends Fragment implements IMealDetails {
         return videoId;
     }
 
-    public void show()
+    public void showDialog()
     {
+        Dialog dialog  = new Dialog(getContext());
+        dialog.setContentView(R.layout.login_dialog);
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT , ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.getWindow().setBackgroundDrawable(getContext().getDrawable(R.drawable.custom_dialog));
 
+        Button sigin = dialog.findViewById(R.id.sigin);
+
+
+        sigin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), LoginActivity.class));
+                dialog.dismiss();
+                getActivity().finish();
+            }
+        });
+
+        dialog.show();
     }
 }

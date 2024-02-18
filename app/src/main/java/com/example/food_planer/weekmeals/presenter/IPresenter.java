@@ -10,6 +10,7 @@ public interface IPresenter {
     public void deletePlanMeal(WeekMealDetail weekMealDetail);
 
     public void stopSubscribe();
+    public void getUserMode();
 
 
     }

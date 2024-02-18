@@ -7,11 +7,16 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,6 +43,10 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GoogleAuthProvider;
 
+import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.net.Socket;
+
 public class RegisterActivity extends AppCompatActivity implements IRegisterActivity {
 
     FirebaseAuth auth ;
@@ -60,7 +69,7 @@ public class RegisterActivity extends AppCompatActivity implements IRegisterActi
         setContentView(R.layout.activity_register);
 
 
-        presenter = new Presenter(LoginAndRegisterReposatory.getInstance(UserLocalDataSourceimpl.getInstance(this) , FireBaseAuth.getInstance(this)), this);
+        presenter = new Presenter(LoginAndRegisterReposatory.getInstance(UserLocalDataSourceimpl.getInstance(this) , FireBaseAuth.getInstance(this)), this , this);
 
         emailTxt = findViewById(R.id.emailTxt);
         passwordTxt = findViewById(R.id.passwordTxt);
@@ -81,10 +90,15 @@ public class RegisterActivity extends AppCompatActivity implements IRegisterActi
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String email = emailTxt.getText().toString().trim();
-                String password = passwordTxt.getText().toString().trim();
-                String confirmPassword = confirmPasswordTxt.getText().toString().trim();
-                presenter.signUp(email , password , confirmPassword);
+                if(presenter.checkConnectivity()) {
+                    String email = emailTxt.getText().toString().trim();
+                    String password = passwordTxt.getText().toString().trim();
+                    String confirmPassword = confirmPasswordTxt.getText().toString().trim();
+                    presenter.signUp(email, password, confirmPassword);
+                }
+                else {
+                    showDialog();
+                }
             }
         });
 
@@ -129,5 +143,24 @@ public class RegisterActivity extends AppCompatActivity implements IRegisterActi
         startActivity(new Intent(RegisterActivity.this , LoginActivity.class));
         finish();
     }
+
+    public void showDialog()
+    {
+        Dialog dialog  = new Dialog(this);
+        dialog.setContentView(R.layout.dialog2);
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT , ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.getWindow().setBackgroundDrawable(this.getDrawable(R.drawable.custom_dialog));
+        Button okBtn = dialog.findViewById(R.id.ok);
+        okBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+    }
+
+
 
 }

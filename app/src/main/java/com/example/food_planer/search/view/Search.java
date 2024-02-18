@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkCapabilities;
+import android.net.NetworkInfo;
 import android.net.NetworkRequest;
 import android.os.Bundle;
 
@@ -66,6 +67,9 @@ public class Search extends Fragment implements Isearch {
     ArrayList<Country> countries = new ArrayList<>();
 
     ArrayList<Ingredien> ingrediens = new ArrayList<>();
+
+    ConstraintLayout page ;
+    ConstraintLayout netWorkMessage;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,6 +91,9 @@ public class Search extends Fragment implements Isearch {
         RecyclerView searchList = view.findViewById(R.id.SearchList);
 
         TabLayout searchBy = view.findViewById(R.id.tabLayout);
+
+        page = view.findViewById(R.id.page);
+        netWorkMessage = view.findViewById(R.id.networkMessage);
 
        searchBy.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
 
@@ -143,125 +150,6 @@ public class Search extends Fragment implements Isearch {
 
 
 
-        /*ConstraintLayout networkLayout = view.findViewById(R.id.networkMessage);
-        ScrollView page = view.findViewById(R.id.searchPage);
-
-
-        NetworkRequest networkRequest = new NetworkRequest.Builder()
-                .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
-                .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
-                .build();
-
-        Handler mHandler = new Handler(Looper.getMainLooper());
-        ConnectivityManager.NetworkCallback networkCallback = new ConnectivityManager.NetworkCallback(){
-
-            @Override
-            public void onAvailable(@NonNull Network network) {
-                super.onAvailable(network);
-                mHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-
-                        networkLayout.setVisibility(View.GONE);
-                        page.setVisibility(View.VISIBLE);
-                        presenter.getAllCategories();
-                        presenter.getAllCountries();
-                        presenter.getAllIngredents();
-
-                    }
-                });
-            }
-            @Override
-            public void onLost(@NonNull Network network) {
-                super.onLost(network);
-                mHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        page.setVisibility(View.GONE);
-                        networkLayout.setVisibility(View.VISIBLE);
-                    }
-                });
-            }
-        };
-
-
-        searchText = view.findViewById(R.id.searchText);
-        searchText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            // another method
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                Observable observable = Observable.create(
-                        item-> {
-                            String e = s.toString();
-                            item.onNext(e);
-                        }
-                ).debounce(300 , TimeUnit.MILLISECONDS);
-
-                observable.observeOn(AndroidSchedulers.mainThread())
-                        .subscribe( str -> {
-                    if(categories!=null) {
-                        ArrayList<Category> result = (ArrayList<Category>) categories.stream().filter(item -> item.getStrCategory().toLowerCase().contains(str.toString().toLowerCase())).collect(Collectors.toList());
-                        categoryAdapter.setList(result);
-                    }
-                    if(countries!=null) {
-                                ArrayList<Country> result = (ArrayList<Country>) countries.stream().filter(item -> item.getStrArea().toLowerCase().contains(str.toString().toLowerCase())).collect(Collectors.toList());
-                                countryAdapter.setList(result);
-                    }
-                    if(ingrediens!=null){
-                        ArrayList<Ingredien> result = (ArrayList<Ingredien>) ingrediens.stream().filter(item -> item.getStrIngredient().toLowerCase().contains(str.toString().toLowerCase())).collect(Collectors.toList());
-                        ingredentAdapter.setList(result);
-                    }
-                });
-
-            }
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-        ConnectivityManager connectivityManager = (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-        connectivityManager.requestNetwork(networkRequest , networkCallback);
-
-
-        RecyclerView recyclerViewCategories;
-        recyclerViewCategories = view.findViewById(R.id.CategoryList);
-
-        RecyclerView recyclerViewCountries;
-        recyclerViewCountries = view.findViewById(R.id.CountryList);
-
-        RecyclerView recyclerViewIngredents;
-        recyclerViewIngredents= view.findViewById(R.id.IngredentList);
-
-        categoryAdapter = new CategoryAdapter(new ArrayList<>(),getContext());
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-        layoutManager.setOrientation(RecyclerView.HORIZONTAL);
-        recyclerViewCategories.setLayoutManager(layoutManager);
-        recyclerViewCategories.setAdapter(categoryAdapter);
-
-        countryAdapter = new CountryAdapter(new ArrayList<>(),getContext());
-        LinearLayoutManager countrylayoutManager = new LinearLayoutManager(getContext());
-        countrylayoutManager.setOrientation(RecyclerView.HORIZONTAL);
-        recyclerViewCountries.setLayoutManager(countrylayoutManager);
-        recyclerViewCountries.setAdapter(countryAdapter);
-
-
-        ingredentAdapter = new IngredentAdapter(new ArrayList<>(),getContext());
-        LinearLayoutManager ingredentslayoutManager = new LinearLayoutManager(getContext());
-        ingredentslayoutManager.setOrientation(RecyclerView.HORIZONTAL);
-        recyclerViewIngredents.setLayoutManager(ingredentslayoutManager);
-        recyclerViewIngredents.setAdapter(ingredentAdapter);
-
-
-
-        presenter = new Presenter(Reposatory.getInstance(FoodRemoteSourceImpl.getInstance(), MealLocalDataSourceimpl.getInstance(getContext())),this);
-*/
-
 
 
 
@@ -289,5 +177,49 @@ public class Search extends Fragment implements Isearch {
     public void showIngredentsData(Ingredients ingredients){
         this.ingrediens = ingredients.getIngredents();
         ingredentAdapter.setList(ingredients.getIngredents());
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        NetworkRequest networkRequest = new NetworkRequest.Builder()
+                .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+                .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
+                .build();
+
+        Handler mHandler = new Handler(Looper.getMainLooper());
+        ConnectivityManager.NetworkCallback networkCallback = new ConnectivityManager.NetworkCallback(){
+
+            @Override
+            public void onAvailable(@NonNull Network network) {
+                super.onAvailable(network);
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Log.i("TAG", "run: " + "here");
+                        netWorkMessage.setVisibility(View.GONE);
+                        page.setVisibility(View.VISIBLE);
+                        presenter.getAllCategories();
+                    }
+                });
+            }
+            @Override
+            public void onLost(@NonNull Network network) {
+                super.onLost(network);
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Log.i("TAG", "run: " + "here lost");
+                        page.setVisibility(View.GONE);
+                        netWorkMessage.setVisibility(View.VISIBLE);
+                    }
+                });
+            }
+        };
+
+
+        ConnectivityManager connectivityManager = (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        connectivityManager.requestNetwork(networkRequest , networkCallback);
+        NetworkInfo activeNetwork = connectivityManager.getActiveNetworkInfo();
     }
 }

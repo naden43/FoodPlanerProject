@@ -8,4 +8,8 @@ import java.util.ArrayList;
 public interface IWeekMeals {
 
     public void showMeals(ArrayList<WeekMealDetail> weekMealDetails);
+
+    public void showLoginOrRegisterMsg();
+
+    public void showUserContent();
 }

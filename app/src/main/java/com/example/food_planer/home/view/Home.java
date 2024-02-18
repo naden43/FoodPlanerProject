@@ -1,5 +1,6 @@
 package com.example.food_planer.home.view;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -24,6 +25,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.Toast;
 
@@ -70,6 +72,12 @@ public class Home extends Fragment implements Ihome {
     LinearLayoutManager layoutManagerRandom;
 
     Presenter presenter;
+
+    ConstraintLayout networkLayout;
+
+    ScrollView page;
+
+    boolean status ;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,12 +93,92 @@ public class Home extends Fragment implements Ihome {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        ConstraintLayout networkLayout = view.findViewById(R.id.networkMessage);
-        ScrollView page = view.findViewById(R.id.homePage);
+        networkLayout = view.findViewById(R.id.networkMessage);
+        page = view.findViewById(R.id.homePage);
 
-        Button logoutBtn  = view.findViewById(R.id.siginout);
+        ImageView logoutBtn  = view.findViewById(R.id.signout);
 
 
+
+
+        RecyclerView recyclerView;
+        recyclerView = view.findViewById(R.id.recycularView);
+        RecyclerView recyclerView1 = view.findViewById(R.id.randomRecycularView);
+
+
+        myAdapter = new Adapter(new ArrayList<>(), getContext());
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        layoutManager.setOrientation(RecyclerView.HORIZONTAL);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(myAdapter);
+
+        myAdapterRandom = new Adapter(new ArrayList<>(), getContext());
+        layoutManagerRandom = new LinearLayoutManager(getContext());
+        layoutManagerRandom.setOrientation(RecyclerView.HORIZONTAL);
+        recyclerView1.setLayoutManager(layoutManagerRandom);
+        recyclerView1.setAdapter(myAdapterRandom);
+
+        Reposatory repo = Reposatory.getInstance(FoodRemoteSourceImpl.getInstance() , MealLocalDataSourceimpl.getInstance(getContext()), PlanMealLocalDataSourceimpl.getInstance(getContext()), FireStoreRemoteDataSourceimpl.getInstance());
+        presenter = new Presenter(repo, Home.this , LoginAndRegisterReposatory.getInstance(UserLocalDataSourceimpl.getInstance(getContext()), FireBaseAuth.getInstance(getActivity())));
+
+        Log.i(TAG, "onViewCreated: " + "before");
+
+        logoutBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!status){
+                    Dialog dialog  = new Dialog(getContext());
+                    dialog.setContentView(R.layout.login_dialog);
+                    dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT , ViewGroup.LayoutParams.WRAP_CONTENT);
+                    dialog.getWindow().setBackgroundDrawable(getContext().getDrawable(R.drawable.custom_dialog));
+                    Button sigin = dialog.findViewById(R.id.sigin);
+                    sigin.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            startActivity(new Intent(getContext(), LoginActivity.class));
+                            dialog.dismiss();
+                            getActivity().finish();
+                        }
+                    });
+                    dialog.show();
+                }
+                else {
+                    String userId = presenter.getUserId();
+                    presenter.saveFavouriteMeals(userId);
+                    presenter.savePlansMeals(userId);
+                    presenter.deleteUser();
+                    startActivity(new Intent(getContext(), LoginActivity.class));
+                    try {
+                        getActivity().finish();
+                    } catch (Throwable e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+        });
+
+        status = presenter.getUserMode();
+
+    }
+
+    @Override
+    public void showData(Meal meal) {
+        myAdapter.setToList(meal);
+    }
+
+    @Override
+    public void showErrorMsg(String errorMsg) {
+        Toast.makeText(getContext(), "fail" + errorMsg, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showRandomData(Meal meal) {
+        myAdapterRandom.setToList(meal);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
         NetworkRequest networkRequest = new NetworkRequest.Builder()
                 .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
                 .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
@@ -131,61 +219,5 @@ public class Home extends Fragment implements Ihome {
         ConnectivityManager connectivityManager = (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         connectivityManager.requestNetwork(networkRequest , networkCallback);
         NetworkInfo activeNetwork = connectivityManager.getActiveNetworkInfo();
-
-        RecyclerView recyclerView;
-        recyclerView = view.findViewById(R.id.recycularView);
-        RecyclerView recyclerView1 = view.findViewById(R.id.randomRecycularView);
-
-
-        myAdapter = new Adapter(new ArrayList<>(), getContext());
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-        layoutManager.setOrientation(RecyclerView.HORIZONTAL);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(myAdapter);
-
-        myAdapterRandom = new Adapter(new ArrayList<>(), getContext());
-        layoutManagerRandom = new LinearLayoutManager(getContext());
-        layoutManagerRandom.setOrientation(RecyclerView.HORIZONTAL);
-        recyclerView1.setLayoutManager(layoutManagerRandom);
-        recyclerView1.setAdapter(myAdapterRandom);
-
-        Reposatory repo = Reposatory.getInstance(FoodRemoteSourceImpl.getInstance() , MealLocalDataSourceimpl.getInstance(getContext()), PlanMealLocalDataSourceimpl.getInstance(getContext()), FireStoreRemoteDataSourceimpl.getInstance());
-        presenter = new Presenter(repo, Home.this , LoginAndRegisterReposatory.getInstance(UserLocalDataSourceimpl.getInstance(getContext()), FireBaseAuth.getInstance(getActivity())));
-
-        Log.i(TAG, "onViewCreated: " + "before");
-
-        logoutBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String userId = presenter.getUserId();
-                presenter.saveFavouriteMeals(userId);
-                presenter.savePlansMeals(userId);
-                presenter.deleteUser();
-                startActivity(new Intent(getContext() , LoginActivity.class));
-                try {
-                    getActivity().finish();
-                } catch (Throwable e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        });
-
     }
-
-    @Override
-    public void showData(Meal meal) {
-        myAdapter.setToList(meal);
-    }
-
-    @Override
-    public void showErrorMsg(String errorMsg) {
-        Toast.makeText(getContext(), "fail" + errorMsg, Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void showRandomData(Meal meal) {
-        myAdapterRandom.setToList(meal);
-    }
-
-
 }

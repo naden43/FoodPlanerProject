@@ -7,8 +7,8 @@
     tools:context=".mealpage.view.IngredientItem">
 
     <androidx.cardview.widget.CardView
-        android:layout_width="245dp"
-        android:layout_height="106dp"
+        android:layout_width="250dp"
+        android:layout_height="96dp"
         android:elevation="10dp"
         app:cardCornerRadius="12dp"
         app:cardElevation="10dp"
@@ -17,31 +17,31 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="252dp"
-            android:layout_height="match_parent">
+            android:layout_width="match_parent"
+            android:layout_height="59dp">
+
+            <ImageView
+                android:id="@+id/ingredientImg"
+                android:layout_width="47dp"
+                android:layout_height="47dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="5dp"
+                android:src="@drawable/ic_launcher_background"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/ingredientName"
+                android:id="@+id/mesure"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:text="TextView"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 app:layout_constraintStart_toEndOf="@+id/ingredientImg"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageView
-                android:id="@+id/ingredientImg"
-                android:layout_width="95dp"
-                android:layout_height="108dp"
-                android:layout_marginTop="4dp"
-                android:layout_marginBottom="4dp"
-                android:src="@drawable/ic_launcher_background"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>

@@ -1,5 +1,8 @@
 package com.example.food_planer.login.presenter;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.util.Log;
 
 import com.example.food_planer.login.view.ILoginActivity;
@@ -23,13 +26,27 @@ public class Presenter implements IPresenter , NetworkCallback  , GoogleCallBack
 
     String email ;
     String password;
-    public Presenter(LoginAndRegisterReposatory repo , ILoginActivity view , Reposatory reposatory )
+    Context context;
+    public Presenter(LoginAndRegisterReposatory repo , ILoginActivity view , Reposatory reposatory , Context context )
     {
         this.reposatory = reposatory;
         this.repo = repo;
         this.view = view;
+        this.context = context;
     }
 
+    public boolean checkConnectivity()
+    {
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+
+
+        if (networkInfo == null  ) {
+            return false;
+        }
+
+        return networkInfo.isConnectedOrConnecting();
+    }
 
     @Override
     public void signIn(String email, String password,boolean remember ) {

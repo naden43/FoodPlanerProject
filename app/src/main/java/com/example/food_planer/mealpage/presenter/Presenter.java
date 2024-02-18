@@ -2,6 +2,7 @@ package com.example.food_planer.mealpage.presenter;
 
 import com.example.food_planer.mealpage.view.IMealDetails;
 import com.example.food_planer.model.DataBaseDelegate;
+import com.example.food_planer.model.LoginAndRegisterReposatory;
 import com.example.food_planer.model.MealDetail;
 import com.example.food_planer.model.Reposatory;
 import com.example.food_planer.model.WeekMealDetail;
@@ -15,9 +16,11 @@ public class Presenter implements IPresenter , MealDetailsCallBack , DataBaseDel
     Reposatory repo;
     IMealDetails view ;
 
-    public Presenter(Reposatory repo, IMealDetails view) {
+    LoginAndRegisterReposatory reposatory ;
+    public Presenter(Reposatory repo, IMealDetails view , LoginAndRegisterReposatory reposatory) {
         this.repo = repo;
         this.view = view;
+        this.reposatory = reposatory;
     }
 
     @Override
@@ -43,6 +46,11 @@ public class Presenter implements IPresenter , MealDetailsCallBack , DataBaseDel
     @Override
     public void getSpecificPlanMeal(String strMeal, int day, int month, int year) {
         repo.getSpecificMeal(strMeal , day , month ,year , this);
+    }
+
+    @Override
+    public boolean getUserMode() {
+        return reposatory.checkSavedAccount();
     }
 
     @Override

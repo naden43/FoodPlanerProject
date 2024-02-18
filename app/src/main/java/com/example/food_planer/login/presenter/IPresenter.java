@@ -12,4 +12,6 @@ public interface IPresenter {
 
     public void sigInByGoogle();
     public void intializeLauncher();
+    public boolean checkConnectivity();
+
 }

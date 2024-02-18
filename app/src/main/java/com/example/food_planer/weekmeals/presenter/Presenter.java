@@ -1,6 +1,7 @@
 package com.example.food_planer.weekmeals.presenter;
 
 import com.example.food_planer.model.DataBaseDelegate;
+import com.example.food_planer.model.LoginAndRegisterReposatory;
 import com.example.food_planer.model.MealDetail;
 import com.example.food_planer.model.Reposatory;
 import com.example.food_planer.model.WeekMealDetail;
@@ -13,14 +14,26 @@ public class Presenter implements IPresenter ,WeekMealsDelegate{
 
     Reposatory repo ;
     IWeekMeals view ;
+    LoginAndRegisterReposatory reposatory;
 
-    public Presenter(Reposatory repo , IWeekMeals view){
+    public Presenter(Reposatory repo , IWeekMeals view , LoginAndRegisterReposatory reposatory){
         this.repo = repo;
         this.view = view;
+        this.reposatory = reposatory;
     }
     @Override
     public void getWeekMeal(int day, int month, int year) {
         repo.getWeekMeals(day , month , year ,this);
+    }
+
+    @Override
+    public void getUserMode() {
+        if(reposatory.checkSavedAccount()){
+            view.showUserContent();
+        }
+        else {
+            view.showLoginOrRegisterMsg();
+        }
     }
 
     @Override

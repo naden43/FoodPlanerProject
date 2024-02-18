@@ -6,59 +6,83 @@
     android:layout_height="match_parent"
     >
 
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tabLayout"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/networkMessage"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="50dp"
-        android:layout_marginEnd="16dp"
+        android:layout_height="match_parent"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        >
+        app:layout_constraintTop_toTopOf="parent">
 
-        <com.google.android.material.tabs.TabItem
-            android:id="@+id/category"
-            android:layout_width="wrap_content"
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/lottieAnimationView2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/network"
+            tools:layout_editor_absoluteX="-62dp"
+            tools:layout_editor_absoluteY="-191dp" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/page"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/SearchList"
+            android:layout_width="409dp"
+            android:layout_height="607dp"
+            android:layout_marginStart="1dp"
+            android:layout_marginTop="12dp"
+            android:paddingBottom="55dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tabLayout" />
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabLayout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:icon="@drawable/category"
-            android:text="@string/Category"
-            tools:layout_editor_absoluteX="81dp"
-            tools:layout_editor_absoluteY="28dp"
+            android:layout_marginTop="24dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-            />
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/category"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:icon="@drawable/category"
+                android:text="@string/Category"
+                tools:layout_editor_absoluteX="81dp"
+                tools:layout_editor_absoluteY="28dp"
 
-        <com.google.android.material.tabs.TabItem
-            android:id="@+id/country"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:icon="@drawable/country"
-            android:text="@string/Country"
-            tools:layout_editor_absoluteX="81dp"
-            tools:layout_editor_absoluteY="28dp" />
+                />
 
-        <com.google.android.material.tabs.TabItem
-            android:id="@+id/ingredient"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:icon="@drawable/ingredient"
-            android:text="@string/Ingredent"
-            tools:layout_editor_absoluteX="81dp"
-            tools:layout_editor_absoluteY="28dp" />
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/country"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:icon="@drawable/country"
+                android:text="@string/Country"
+                tools:layout_editor_absoluteX="81dp"
+                tools:layout_editor_absoluteY="28dp" />
+
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/ingredient"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:icon="@drawable/ingredient"
+                android:text="@string/Ingredent"
+                tools:layout_editor_absoluteX="81dp"
+                tools:layout_editor_absoluteY="28dp" />
 
 
-    </com.google.android.material.tabs.TabLayout>
+        </com.google.android.material.tabs.TabLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/SearchList"
-        android:layout_width="409dp"
-        android:layout_height="607dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="24dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tabLayout"
-        android:paddingBottom="55dp"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -22,6 +22,8 @@ public interface IPresenter {
 
     public void deleteUser();
 
+    public boolean getUserMode();
+
 
 
 }

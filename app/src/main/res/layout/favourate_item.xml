@@ -8,8 +8,8 @@
     tools:context=".home.view.item">
 
     <androidx.cardview.widget.CardView
-        android:layout_width="238dp"
-        android:layout_height="257dp"
+        android:layout_width="236dp"
+        android:layout_height="282dp"
         android:layout_marginStart="1dp"
         android:layout_marginEnd="4dp"
         app:cardCornerRadius="30dp"
@@ -27,8 +27,8 @@
 
             <ImageView
                 android:id="@+id/img"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="211dp"
+                android:layout_height="172dp"
                 android:scaleType="fitXY"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -37,8 +37,8 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="86dp"
-                android:layout_marginTop="148dp"
-                android:background="@color/maincolorD"
+                android:layout_marginTop="164dp"
+                android:background="@color/white"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/img">
 
@@ -48,7 +48,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="TextView"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     android:textSize="16sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"

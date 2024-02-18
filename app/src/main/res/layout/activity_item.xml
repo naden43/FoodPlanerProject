@@ -13,7 +13,7 @@
         android:layout_marginStart="1dp"
         android:layout_marginEnd="4dp"
         android:layout_marginBottom="4dp"
-        app:cardCornerRadius="30dp"
+        app:cardCornerRadius="15dp"
         app:cardElevation="12dp"
         app:cardUseCompatPadding="true"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -31,17 +31,17 @@
             <ImageView
                 android:id="@+id/img"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="169dp"
                 android:scaleType="fitXY"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_launcher_foreground" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="86dp"
+                android:layout_width="213dp"
+                android:layout_height="94dp"
                 android:layout_marginTop="168dp"
-                android:background="@color/maincolorD"
+                android:background="@color/white"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/img">
 
@@ -51,8 +51,8 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="TextView"
-                    android:textColor="@color/white"
-                    android:textSize="20sp"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.504"

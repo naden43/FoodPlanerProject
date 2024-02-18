@@ -96,6 +96,11 @@ public class Presenter implements IPresenter , InspirationMealNetworkCallBack , 
         logoutRepo.deleteUser();
     }
 
+    @Override
+    public boolean getUserMode() {
+        return logoutRepo.checkSavedAccount();
+    }
+
     public void delegatePlansFinish(ArrayList<WeekMealDetail> weekMealDetails)
     {
         //disposable.dispose();

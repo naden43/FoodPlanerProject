@@ -1,6 +1,7 @@
 package com.example.food_planer.favourate.view;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -14,8 +15,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 
+import com.example.food_planer.NavigationActivity;
 import com.example.food_planer.R;
 import com.example.food_planer.dpfirestore.FireStoreRemoteDataSourceimpl;
 import com.example.food_planer.favourate.presenter.Presenter;
@@ -28,6 +31,7 @@ import com.example.food_planer.model.Reposatory;
 import com.example.food_planer.model.UserLocalDataSourceimpl;
 import com.example.food_planer.network.FireBaseAuth;
 import com.example.food_planer.network.FoodRemoteSourceImpl;
+import com.example.food_planer.register.view.RegisterActivity;
 import com.example.food_planer.search.view.IngredentAdapter;
 
 import java.util.ArrayList;
@@ -46,6 +50,8 @@ public class Favourate extends Fragment implements IFavourate , deleteSetOnClick
 
     Presenter presenter;
     FavourateAdapter favourateAdapter;
+
+    Button siginUp ;
 
 
     @Override
@@ -67,6 +73,15 @@ public class Favourate extends Fragment implements IFavourate , deleteSetOnClick
 
         page = view.findViewById(R.id.page);
         loginMessage = view.findViewById(R.id.loginMessage);
+        siginUp = view.findViewById(R.id.siginUpRedirect);
+
+        siginUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext() , RegisterActivity.class));
+                getActivity().finish();
+            }
+        });
 
         RecyclerView recyclerView = view.findViewById(R.id.favourateList);
 

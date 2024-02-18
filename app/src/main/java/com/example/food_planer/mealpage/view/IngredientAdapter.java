@@ -9,17 +9,13 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.food_planer.R;
 
-import com.example.food_planer.home.view.HomeDirections;
-import com.example.food_planer.model.Ingredien;
 import com.example.food_planer.model.IngredientMesure;
-import com.example.food_planer.model.Meal;
 
 import java.util.ArrayList;
 
@@ -54,7 +50,7 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.Vi
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             layout = itemView;
-            description = itemView.findViewById(R.id.ingredientName);
+            description = itemView.findViewById(R.id.mesure);
             img = itemView.findViewById(R.id.ingredientImg);
         }
     }
