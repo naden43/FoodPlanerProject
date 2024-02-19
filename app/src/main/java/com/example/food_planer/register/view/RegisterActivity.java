@@ -63,6 +63,42 @@ public class RegisterActivity extends AppCompatActivity implements IRegisterActi
     Presenter presenter ;
 
     TextView loginRedirect;
+
+    ActivityResultLauncher<Intent> launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+        @Override
+        public void onActivityResult(ActivityResult o) {
+            if(o.getResultCode() == RESULT_OK)
+            {
+                Task<GoogleSignInAccount> accountTask = GoogleSignIn.getSignedInAccountFromIntent(o.getData());
+                try {
+
+                    GoogleSignInAccount signInAccount = accountTask.getResult(ApiException.class);
+                    AuthCredential authCredential = GoogleAuthProvider.getCredential(signInAccount.getIdToken() , null);
+                    auth.signInWithCredential(authCredential).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                        @Override
+                        public void onSuccess(AuthResult authResult) {
+                            auth  = FirebaseAuth.getInstance();
+                            String userId = auth.getCurrentUser().getUid();
+                            Toast.makeText(RegisterActivity.this, "Register successful", Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(RegisterActivity.this , LoginActivity.class));
+                            presenter.addToShared(auth.getCurrentUser().getEmail() , userId);
+                            finish();
+                            //googleCallBack.successSignIn( auth.getCurrentUser().getEmail() , userId);
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            //googleCallBack.FailCall(e.getMessage());
+                            //Toast.makeText(LoginActivity.this, "SignInFail" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+                } catch (ApiException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    });
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,12 +115,24 @@ public class RegisterActivity extends AppCompatActivity implements IRegisterActi
         signInButton = findViewById(R.id.signUpButton);
         //FirebaseApp.initializeApp(RegisterActivity.this);
 
+        auth = FirebaseAuth.getInstance();
+        GoogleSignInOptions signInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.client_id)).requestEmail().build();
+        client = GoogleSignIn.getClient(this,signInOptions);
+
+
 
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                presenter.addToSharedPrefrence("admin" , "admin");
-                presenter.signInByGoogle();
+                if(presenter.checkConnectivity()) {
+                    Intent intent = client.getSignInIntent();
+                    launcher.launch(intent);
+                    //presenter.signInByGoogle();
+                }
+                else {
+                    showDialog();
+                }
             }
         });
         registerBtn.setOnClickListener(new View.OnClickListener() {

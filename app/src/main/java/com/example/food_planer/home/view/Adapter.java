@@ -30,6 +30,9 @@ class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>
         this.context = context;
     }
 
+    public void clearList(){
+        meals.clear();
+    }
     public void setToList(Meal meal)
     {
         meals.add(meal);

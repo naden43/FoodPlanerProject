@@ -48,6 +48,11 @@ public class Presenter implements IPresenter , NetworkCallback , GoogleCallBack 
         repo.addUser(email , "" , userId);
     }
 
+    public void addToShared(String userId , String email)
+    {
+        repo.addUser(email , "" , userId);
+    }
+
     @Override
     public void successCall(boolean remember, String userId) {
 

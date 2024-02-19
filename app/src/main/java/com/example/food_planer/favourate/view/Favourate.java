@@ -1,8 +1,6 @@
 package com.example.food_planer.favourate.view;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -16,13 +14,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 
-import com.example.food_planer.NavigationActivity;
 import com.example.food_planer.R;
 import com.example.food_planer.dpfirestore.FireStoreRemoteDataSourceimpl;
 import com.example.food_planer.favourate.presenter.Presenter;
-import com.example.food_planer.login.view.LoginActivity;
 import com.example.food_planer.model.LoginAndRegisterReposatory;
 import com.example.food_planer.model.MealDetail;
 import com.example.food_planer.model.MealLocalDataSourceimpl;
@@ -32,7 +27,6 @@ import com.example.food_planer.model.UserLocalDataSourceimpl;
 import com.example.food_planer.network.FireBaseAuth;
 import com.example.food_planer.network.FoodRemoteSourceImpl;
 import com.example.food_planer.register.view.RegisterActivity;
-import com.example.food_planer.search.view.IngredentAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,7 +65,7 @@ public class Favourate extends Fragment implements IFavourate , deleteSetOnClick
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        page = view.findViewById(R.id.page);
+        page = view.findViewById(R.id.pageScroll);
         loginMessage = view.findViewById(R.id.loginMessage);
         siginUp = view.findViewById(R.id.siginUpRedirect);
 

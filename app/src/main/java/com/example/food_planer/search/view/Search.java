@@ -17,14 +17,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Handler;
 import android.os.Looper;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.ScrollView;
 import android.widget.Toast;
 
 import com.example.food_planer.R;
@@ -43,12 +40,6 @@ import com.example.food_planer.model.Categories;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
-
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
-import io.reactivex.rxjava3.core.Observable;
 
 
 public class Search extends Fragment implements Isearch {
@@ -92,7 +83,7 @@ public class Search extends Fragment implements Isearch {
 
         TabLayout searchBy = view.findViewById(R.id.tabLayout);
 
-        page = view.findViewById(R.id.page);
+        page = view.findViewById(R.id.pageScroll);
         netWorkMessage = view.findViewById(R.id.networkMessage);
 
        searchBy.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {

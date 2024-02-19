@@ -175,21 +175,10 @@ public class MealDetails extends Fragment implements IMealDetails {
     public void showMealData(MealDetail mealDetails) {
         mealName.setText(mealDetails.getStrMeal());
         meal = mealDetails;
-        Glide.with(getContext())
-                .asBitmap()
+        Glide.with(this)
                 .load(mealDetails.getStrMealThumb())
                 .apply(new RequestOptions().override(200, 200))
-                .into(new CustomTarget<Bitmap>() {
-                    @Override
-                    public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-                        Log.i("TAG", "onResourceReady: ");
-
-                        mealImage.setImageBitmap(resource);
-                    }
-                    @Override
-                    public void onLoadCleared(@Nullable Drawable placeholder) {
-                    }
-                });
+                .into(mealImage);
 
 
         IngredientAdapter myAdapter = new IngredientAdapter(mealDetails.ingredientsMeasure(mealDetails), getContext());

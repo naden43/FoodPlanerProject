@@ -210,6 +210,8 @@ public class Home extends Fragment implements Ihome {
                         Log.i(TAG, "run: " + "here lost");
                         page.setVisibility(View.GONE);
                         networkLayout.setVisibility(View.VISIBLE);
+                        myAdapter.clearList();
+                        myAdapterRandom.clearList();
                     }
                 });
             }

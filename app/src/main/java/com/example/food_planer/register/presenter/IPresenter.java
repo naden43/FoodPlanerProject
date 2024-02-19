@@ -9,5 +9,7 @@ public interface IPresenter{
 
     public void signInByGoogle();
 
+    public void addToShared(String email , String userId);
+
 
 }
