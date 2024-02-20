@@ -35,14 +35,14 @@ public class Presenter implements IPresenter , InspirationMealNetworkCallBack , 
 
     @Override
     public void getInspirationMeals() {
-        for(int i=0 ;i<10 ;i++) {
+        for(int i=0 ;i<2 ;i++) {
             repo.makeAInspirationMealCall(this);
         }
     }
 
     @Override
     public void getRandomMeals() {
-        for(int i=0 ;i<20 ;i++) {
+        for(int i=0 ;i<2 ;i++) {
             repo.makeARandomMealCall(this);
         }
     }

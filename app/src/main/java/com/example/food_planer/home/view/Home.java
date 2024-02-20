@@ -77,6 +77,8 @@ public class Home extends Fragment implements Ihome {
 
     ScrollView page;
 
+    ConstraintLayout loading ;
+
     boolean status ;
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -95,7 +97,7 @@ public class Home extends Fragment implements Ihome {
 
         networkLayout = view.findViewById(R.id.networkMessage);
         page = view.findViewById(R.id.homePage);
-
+        loading = view.findViewById(R.id.loading);
         ImageView logoutBtn  = view.findViewById(R.id.signout);
 
 
@@ -163,6 +165,8 @@ public class Home extends Fragment implements Ihome {
 
     @Override
     public void showData(Meal meal) {
+        loading.setVisibility(View.GONE);
+        page.setVisibility(View.VISIBLE);
         myAdapter.setToList(meal);
     }
 
@@ -195,7 +199,7 @@ public class Home extends Fragment implements Ihome {
                     public void run() {
                         Log.i(TAG, "run: " + "here");
                         networkLayout.setVisibility(View.GONE);
-                        page.setVisibility(View.VISIBLE);
+                        loading.setVisibility(View.VISIBLE);
                         presenter.getInspirationMeals();
                         presenter.getRandomMeals();
                     }

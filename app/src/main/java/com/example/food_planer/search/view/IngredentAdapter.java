@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -11,6 +12,8 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.food_planer.R;
 import com.example.food_planer.model.Country;
 import com.example.food_planer.model.Ingredien;
@@ -40,12 +43,15 @@ public class IngredentAdapter extends RecyclerView.Adapter<IngredentAdapter.View
 
         public View layout;
 
+        ImageView image;
+
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             layout = itemView;
             name = itemView.findViewById(R.id.name);
             constraintLayout = itemView.findViewById(R.id.constarinView);
+            image = itemView.findViewById(R.id.image);
         }
     }
     @NonNull
@@ -62,6 +68,8 @@ public class IngredentAdapter extends RecyclerView.Adapter<IngredentAdapter.View
     public void onBindViewHolder(@NonNull IngredentAdapter.ViewHolder holder, int position) {
         holder.name.setText(Ingredents.get(position).getStrIngredient());
 
+        Glide.with(context).load("https://www.themealdb.com/images/ingredients/"+Ingredents.get(position).getStrIngredient()+"-Small.png").apply(new RequestOptions().
+                override(200, 200)).into(holder.image);
         holder.constraintLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

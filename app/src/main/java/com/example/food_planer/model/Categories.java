@@ -4,17 +4,17 @@ import java.util.ArrayList;
 
 public class Categories {
 
-    ArrayList<Category> meals ;
+    ArrayList<Category> categories ;
 
-    public Categories(ArrayList<Category> meals) {
-        this.meals = meals;
+    public Categories(ArrayList<Category> categories) {
+        this.categories = categories;
     }
 
     public ArrayList<Category> getCategories() {
-        return meals;
+        return categories;
     }
 
-    public void setMeals(ArrayList<Category> meals) {
-        this.meals = meals;
+    public void setMeals(ArrayList<Category> categories) {
+        this.categories = categories;
     }
 }

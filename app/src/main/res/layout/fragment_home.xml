@@ -30,6 +30,29 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/loading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/lottieAnimationView3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/loading2"
+            tools:layout_editor_absoluteX="-62dp"
+            tools:layout_editor_absoluteY="-191dp" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
     <ScrollView
         android:id="@+id/homePage"
         android:layout_width="match_parent"
@@ -72,7 +95,7 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycularView"
-                android:layout_width="409dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="32dp"
@@ -97,8 +120,8 @@
 
             <ImageView
                 android:id="@+id/signout"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="24dp"
                 android:src="@drawable/baseline_logout_24"

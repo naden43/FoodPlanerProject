@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -40,12 +41,14 @@ public class CountryAdapter extends RecyclerView.Adapter<CountryAdapter.ViewHold
 
         public View layout;
 
+        ImageView image ;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             layout = itemView;
             name = itemView.findViewById(R.id.name);
             constraintLayout = itemView.findViewById(R.id.constarinView);
+            image = itemView.findViewById(R.id.image);
         }
     }
     @NonNull
@@ -62,6 +65,10 @@ public class CountryAdapter extends RecyclerView.Adapter<CountryAdapter.ViewHold
     public void onBindViewHolder(@NonNull CountryAdapter.ViewHolder holder, int position) {
         holder.name.setText(countries.get(position).getStrArea());
 
+
+        String strArea = countries.get(position).getStrArea();
+        int resId = holder.itemView.getContext().getResources().getIdentifier(strArea.toLowerCase(), "drawable", holder.itemView.getContext().getPackageName());
+        holder.image.setImageResource(resId);
         holder.constraintLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

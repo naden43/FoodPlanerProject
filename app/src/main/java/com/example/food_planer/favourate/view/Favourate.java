@@ -80,9 +80,9 @@ public class Favourate extends Fragment implements IFavourate , deleteSetOnClick
         RecyclerView recyclerView = view.findViewById(R.id.favourateList);
 
         favourateAdapter = new FavourateAdapter(new ArrayList<>(),this,getContext());
-        LinearLayoutManager ingredentslayoutManager = new LinearLayoutManager(getContext());
-        ingredentslayoutManager.setOrientation(RecyclerView.HORIZONTAL);
-        recyclerView.setLayoutManager(ingredentslayoutManager);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
+        recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(favourateAdapter);
 
         presenter = new Presenter(LoginAndRegisterReposatory.getInstance(UserLocalDataSourceimpl.getInstance(getContext()), FireBaseAuth.getInstance(getActivity())), Reposatory.getInstance(FoodRemoteSourceImpl.getInstance(), MealLocalDataSourceimpl.getInstance(getContext()), PlanMealLocalDataSourceimpl.getInstance(getContext()), FireStoreRemoteDataSourceimpl.getInstance()),this);

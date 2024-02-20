@@ -9,6 +9,6 @@ import retrofit2.http.GET;
 public interface CategoryService {
 
 
-    @GET("list.php?c=list")
+    @GET("categories.php")
     public Single<Categories> getAllCategories();
 }

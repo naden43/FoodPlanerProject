@@ -10,13 +10,14 @@
         android:id="@+id/page"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginStart="16dp"
         android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <EditText
             android:id="@+id/searchTxt"
-            android:layout_width="350dp"
+            android:layout_width="310dp"
             android:layout_height="55dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
@@ -32,7 +33,6 @@
             android:id="@+id/back"
             android:layout_width="40dp"
             android:layout_height="30dp"
-            android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:src="@drawable/baseline_arrow_back_24"
             app:layout_constraintStart_toStartOf="parent"
@@ -49,24 +49,15 @@
             app:layout_constraintStart_toEndOf="@+id/back"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ScrollView
-            android:id="@+id/pageScroll"
-            android:layout_width="wrap_content"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/ingredientsMeals"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="24dp"
-            android:paddingBottom="100dp"
+            android:layout_marginTop="16dp"
+            android:paddingBottom="180dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/searchTxt">
+            app:layout_constraintTop_toBottomOf="@+id/searchTxt" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/ingredientsMeals"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
-                android:paddingBottom="55dp" />
-        </ScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout

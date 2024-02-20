@@ -6,11 +6,39 @@
     android:layout_height="match_parent"
     tools:context=".mealpage.view.MealDetails" >
 
-    <ScrollView
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/loading"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/lottieAnimationView3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/loading2"
+            tools:layout_editor_absoluteX="-62dp"
+            tools:layout_editor_absoluteY="-191dp" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <ScrollView
+        android:id="@+id/page"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
         android:paddingBottom="40dp"
-        tools:layout_editor_absoluteX="-77dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         tools:layout_editor_absoluteY="16dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -123,20 +151,20 @@
                     android:layout_marginBottom="15dp"
                     android:backgroundTint="@color/main_color"
                     android:clickable="true"
-                    android:tintMode="@color/white"
-                    android:src="@drawable/baseline_favorite_border_24" />
+                    android:src="@drawable/baseline_favorite_border_24"
+                    android:tintMode="@color/white" />
 
                 <com.google.android.material.floatingactionbutton.FloatingActionButton
                     android:id="@+id/addToPlan"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:clickable="true"
-                    android:src="@drawable/add"
                     android:layout_gravity="bottom|end"
                     android:layout_marginEnd="90dp"
-                    android:tintMode="@color/white"
+                    android:layout_marginBottom="15dp"
                     android:backgroundTint="@color/main_color"
-                    android:layout_marginBottom="15dp"/>
+                    android:clickable="true"
+                    android:src="@drawable/add"
+                    android:tintMode="@color/white" />
             </androidx.cardview.widget.CardView>
 
             <WebView

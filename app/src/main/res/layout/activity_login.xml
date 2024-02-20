@@ -40,7 +40,7 @@
 
             <EditText
                 android:id="@+id/txtEmail"
-                android:layout_width="310dp"
+                android:layout_width="280dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:drawableLeft="@drawable/baseline_email_24"
@@ -61,7 +61,7 @@
 
             <EditText
                 android:id="@+id/passwordTxt"
-                android:layout_width="310dp"
+                android:layout_width="280dp"
                 android:layout_height="45dp"
                 android:layout_marginTop="8dp"
                 android:drawableLeft="@drawable/baseline_lock_24"
@@ -88,7 +88,7 @@
 
             <Button
                 android:id="@+id/btnLogin"
-                android:layout_width="300dp"
+                android:layout_width="250dp"
                 android:layout_height="56dp"
                 android:layout_marginStart="120dp"
                 android:layout_marginTop="24dp"
@@ -164,8 +164,10 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="276dp"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="70dp"
         android:backgroundTint="@color/main_color"
         android:text="@string/skip"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

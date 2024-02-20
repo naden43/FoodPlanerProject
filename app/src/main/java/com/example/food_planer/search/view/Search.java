@@ -61,6 +61,8 @@ public class Search extends Fragment implements Isearch {
 
     ConstraintLayout page ;
     ConstraintLayout netWorkMessage;
+
+    ConstraintLayout loading ;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,6 +87,7 @@ public class Search extends Fragment implements Isearch {
 
         page = view.findViewById(R.id.pageScroll);
         netWorkMessage = view.findViewById(R.id.networkMessage);
+        loading = view.findViewById(R.id.loading);
 
        searchBy.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
 
@@ -149,6 +152,8 @@ public class Search extends Fragment implements Isearch {
 
     @Override
     public void showCategoriesData(Categories categories) {
+        loading.setVisibility(View.GONE);
+        page.setVisibility(View.VISIBLE);
         this.categories = categories.getCategories();
         categoryAdapter.setList(categories.getCategories());
     }
@@ -160,12 +165,16 @@ public class Search extends Fragment implements Isearch {
 
     @Override
     public void showCountriesData(Countries countries) {
+        loading.setVisibility(View.GONE);
+        page.setVisibility(View.VISIBLE);
         this.countries = countries.getCountries();
         countryAdapter.setList(countries.getCountries());
     }
 
     @Override
     public void showIngredentsData(Ingredients ingredients){
+        loading.setVisibility(View.GONE);
+        page.setVisibility(View.VISIBLE);
         this.ingrediens = ingredients.getIngredents();
         ingredentAdapter.setList(ingredients.getIngredents());
     }
@@ -189,7 +198,7 @@ public class Search extends Fragment implements Isearch {
                     public void run() {
                         Log.i("TAG", "run: " + "here");
                         netWorkMessage.setVisibility(View.GONE);
-                        page.setVisibility(View.VISIBLE);
+                        loading.setVisibility(View.VISIBLE);
                         presenter.getAllCategories();
                     }
                 });

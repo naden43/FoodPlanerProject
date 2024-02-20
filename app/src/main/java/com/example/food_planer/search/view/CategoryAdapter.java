@@ -1,6 +1,7 @@
 package com.example.food_planer.search.view;
 
 import android.content.Context;
+import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +24,7 @@ import java.util.ArrayList;
 
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHolder> {
 
-    ArrayList<Category> categories;
+    ArrayList<Category> categories = new ArrayList<>();
     Context context ;
 
     public CategoryAdapter(ArrayList<Category> meals , Context context) {
@@ -45,12 +46,15 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
 
         public View layout;
 
+        ImageView image ;
+
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             layout = itemView;
             name = itemView.findViewById(R.id.name);
             constraintLayout = itemView.findViewById(R.id.constarinView);
+            image = itemView.findViewById(R.id.image);
         }
     }
     @NonNull
@@ -60,6 +64,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
         LayoutInflater inflater = LayoutInflater.from(context);
         View itemView = inflater.inflate(R.layout.activity_item_search , parent , false);
         CategoryAdapter.ViewHolder viewHolder = new CategoryAdapter.ViewHolder(itemView);
+
         return viewHolder;
 
 
@@ -68,6 +73,11 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull CategoryAdapter.ViewHolder holder, int position) {
         holder.name.setText(categories.get(position).getStrCategory());
+
+        Glide.with(context)
+                .load(categories.get(position).getStrCategoryThumb())
+                .apply(new RequestOptions().override(700, 700))
+                .into(holder.image);
         holder.constraintLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

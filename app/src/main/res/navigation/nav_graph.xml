@@ -16,11 +16,6 @@
             app:popUpTo="@id/home2" />
     </fragment>
     <fragment
-        android:id="@+id/profile"
-        android:name="com.example.food_planer.profile.view.Profile"
-        android:label="fragment_profile"
-        tools:layout="@layout/fragment_profile" />
-    <fragment
         android:id="@+id/search"
         android:name="com.example.food_planer.search.view.Search"
         android:label="fragment_search"

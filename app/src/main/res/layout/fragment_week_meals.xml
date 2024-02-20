@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".weekmeals.view.WeekMeals" >
+    tools:context=".weekmeals.view.WeekMeals"
+    android:layout_marginStart="16dp"
+    android:layout_marginEnd="16dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/guestMessage"
@@ -28,14 +30,16 @@
 
         <Button
             android:id="@+id/siginUpRedirect"
-            android:layout_width="350dp"
+            android:layout_width="310dp"
             android:layout_height="60dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="40dp"
-            android:layout_marginEnd="28dp"
+            android:layout_marginEnd="8dp"
             android:backgroundTint="@color/main_color"
             android:text="@string/Register"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView18" />
 
         <TextView
@@ -43,7 +47,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:layout_marginEnd="88dp"
+            android:layout_marginEnd="50dp"
             android:gravity="center"
             android:text="@string/loginMessage"
             android:textSize="24sp"
@@ -65,7 +69,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="18dp"
-            android:paddingBottom="120dp"
+            android:paddingBottom="260dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cardView2" />
 

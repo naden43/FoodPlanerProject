@@ -9,12 +9,14 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.util.Pair;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.provider.CalendarContract;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +26,7 @@ import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,12 +48,14 @@ import com.example.food_planer.model.UserLocalDataSourceimpl;
 import com.example.food_planer.model.WeekMealDetail;
 import com.example.food_planer.network.FireBaseAuth;
 import com.example.food_planer.network.FoodRemoteSourceImpl;
+import com.google.android.material.datepicker.CalendarConstraints;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -76,6 +81,9 @@ public class MealDetails extends Fragment implements IMealDetails {
 
     Boolean status ;
 
+    ScrollView page;
+    ConstraintLayout loading ;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,6 +102,9 @@ public class MealDetails extends Fragment implements IMealDetails {
 
         String strMeal = MealDetailsArgs.fromBundle(getArguments()).getStrMeal();
         int id = MealDetailsArgs.fromBundle(getArguments()).getId();
+
+        page = view.findViewById(R.id.page);
+        loading = view.findViewById(R.id.loading);
 
         mealName = view.findViewById(R.id.mealName);
         ingredientList = view.findViewById(R.id.ingredientsRecycularView);
@@ -133,6 +144,21 @@ public class MealDetails extends Fragment implements IMealDetails {
                                 public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                                     WeekMealDetail weekMealDetail = new WeekMealDetail(meal.strMeal, dayOfMonth, meal, month, year);
                                     presenter.addToPlan(weekMealDetail);
+
+                                    Calendar calendar = Calendar.getInstance();
+                                    calendar.set(year, month, dayOfMonth);
+                                    long startTime = calendar.getTimeInMillis();
+                                    long endTime = startTime + TimeUnit.HOURS.toMillis(1);
+                                    Intent intent = new Intent(Intent.ACTION_INSERT);
+                                    intent.setData(CalendarContract.Events.CONTENT_URI);
+                                    intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, startTime);
+                                    intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endTime);
+                                    intent.putExtra(CalendarContract.Events.TITLE, meal.strMeal);
+
+                                    if(intent.resolveActivity(getContext().getPackageManager()) != null) {
+                                        startActivity(intent);
+                                    }
+
                                 }
                             }
 
@@ -173,6 +199,8 @@ public class MealDetails extends Fragment implements IMealDetails {
 
     @Override
     public void showMealData(MealDetail mealDetails) {
+        loading.setVisibility(View.GONE);
+        page.setVisibility(View.VISIBLE);
         mealName.setText(mealDetails.getStrMeal());
         meal = mealDetails;
         Glide.with(this)
@@ -194,8 +222,6 @@ public class MealDetails extends Fragment implements IMealDetails {
             instrText.setText(instrText.getText() + "\n" + instructions[i]);
             instrText.setText(instrText.getText() + "\n");
         }
-
-
 
 
         String videoId = extractVideoId(mealDetails.getStrYoutube());
