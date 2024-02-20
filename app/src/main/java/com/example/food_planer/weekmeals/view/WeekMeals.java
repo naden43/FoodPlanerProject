@@ -83,6 +83,10 @@ public class WeekMeals extends Fragment implements IWeekMeals , OnDeleteClickLis
         recyclerView.setAdapter(adapter);
 
         presenter = new Presenter(Reposatory.getInstance(FoodRemoteSourceImpl.getInstance(),MealLocalDataSourceimpl.getInstance(getContext()),PlanMealLocalDataSourceimpl.getInstance(getContext()), FireStoreRemoteDataSourceimpl.getInstance()),this , LoginAndRegisterReposatory.getInstance(UserLocalDataSourceimpl.getInstance(getContext()),FireBaseAuth.getInstance(null)));
+        calendarView.setMinDate(Calendar.getInstance().getTimeInMillis());
+        Calendar day = Calendar.getInstance();
+        day.add(Calendar.DAY_OF_MONTH,7);
+        calendarView.setMaxDate(day.getTimeInMillis());
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {

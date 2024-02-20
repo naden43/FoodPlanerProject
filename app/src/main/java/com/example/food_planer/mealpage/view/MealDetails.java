@@ -128,6 +128,9 @@ public class MealDetails extends Fragment implements IMealDetails {
         int mounth = calendar.get(Calendar.MONTH);
         int day = calendar.get(Calendar.DAY_OF_MONTH);
 
+        long start = calendar.getTimeInMillis();
+        calendar.add(Calendar.DAY_OF_MONTH , 7);
+        long end = calendar.getTimeInMillis();
 
         // calender
         savedBtn.setOnClickListener(new View.OnClickListener() {
@@ -163,9 +166,9 @@ public class MealDetails extends Fragment implements IMealDetails {
                             }
 
                             , year, mounth, day);
-                    //datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis()-100);
+                    datePickerDialog.getDatePicker().setMinDate(start);
                     calendar.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY);
-                    //datePickerDialog.getDatePicker().setMaxDate(calendar.getTimeInMillis());
+                    datePickerDialog.getDatePicker().setMaxDate(end);
                     datePickerDialog.show();
                 }
 
